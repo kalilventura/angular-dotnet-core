@@ -1,0 +1,53 @@
+<mat-card>
+
+  <mat-card-title>Lista de todos os Vendedores</mat-card-title>
+  <mat-card-subtitle>Você pode buscar algum produto caso necessite</mat-card-subtitle>
+
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Digite o que busca">
+  </mat-form-field>
+
+  <mat-card-content>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="Id">
+          <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.sellerId}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Name">
+          <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Telephone">
+          <mat-header-cell *matHeaderCellDef> Telefone </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.telephone}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Commission Value">
+          <mat-header-cell *matHeaderCellDef> Valor da comissão </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.commissionValue}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Actions">
+          <mat-header-cell *matHeaderCellDef> Ações </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-button color="accent" (click)="deleteSeller(element.sellerId)">Deletar</button>
+            <button mat-button color="accent" (click)="alterSeller(element.sellerId)">Alterar</button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button (click)="AddSeller()">Adicionar um Vendedor</button>
+  </mat-card-actions>
+</mat-card>

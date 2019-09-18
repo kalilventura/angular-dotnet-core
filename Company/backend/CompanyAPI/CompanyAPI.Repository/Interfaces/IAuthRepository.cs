@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace CompanyAPI.Repository.Interfaces
+{
+    public interface IAuthRepository
+    {
+
+    }
+}

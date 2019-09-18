@@ -1,0 +1,57 @@
+<div layout="column" layout-fill>
+  <div align="center" layout="row" layout-align="center center">
+
+    <mat-card class="info-card mat-elevation-z8" flex="80" style="margin-top: 60px;width: 800px;;">
+
+      <mat-card-title>Alterar o Produto</mat-card-title>
+      <mat-card-subtitle>Digite os dados que você deseja para alterar no produto</mat-card-subtitle>
+
+      <mat-card-content fxLayout="column" fxLayoutAlign="stretch">
+
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="start stretch">
+
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="space-between start">
+            <mat-form-field fxFlex="45">
+              <input matInput type="text" formControlName="name" placeholder="Nome" [(ngModel)]="product.name">
+              <mat-error *ngIf="productForm.controls.name.hasError('required')">
+                Por favor, digite o nome do produto.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+              <input matInput type="text" formControlName="description" placeholder="Descrição" [(ngModel)]="product.description">
+              <mat-error *ngIf="productForm.controls.description.hasError('required')">
+                Por favor, digite a descrição
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+              <input matInput type="text" formControlName="barCode" placeholder="Código de Barras" [(ngModel)]="product.barCode">
+              <mat-error *ngIf="productForm.controls.barCode.hasError('required')">
+                Por favor, digite o código de barras.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+              <input matInput type="number" formControlName="price" placeholder="Preço" [(ngModel)]="product.price">
+              <mat-error *ngIf="productForm.controls.price.hasError('required')">
+                Por favor, digite o preço do produto.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <button mat-button color="primary" type="submit" [disabled]="!productForm.valid">
+            <mat-icon>done</mat-icon>Alterar
+          </button>
+
+        </form>
+
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-raised-button (click)="GoBack()">Voltar</button>
+          <button mat-raised-button (click)="Clear()">Limpar</button>
+      </mat-card-actions>
+      <mat-card-footer>
+
+      </mat-card-footer>
+    </mat-card>
+
+  </div>
+</div>

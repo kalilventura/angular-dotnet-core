@@ -1,0 +1,51 @@
+<div layout="column" layout-fill>
+  <div align="center" layout="row" layout-align="center center">
+
+    <mat-card class="info-card mat-elevation-z8" flex="80" style="margin-top: 60px;width: 800px;;">
+
+      <mat-card-title>Alterar o Vendedor</mat-card-title>
+      <mat-card-subtitle>Digite os dados necessarios para alterar vendedor</mat-card-subtitle>
+
+      <mat-card-content fxLayout="column" fxLayoutAlign="stretch">
+
+        <form [formGroup]="sellerForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign="start stretch">
+
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="space-between start">
+            <mat-form-field fxFlex="45">
+              <input matInput type="text" formControlName="name" placeholder="Nome" [(ngModel)]="seller.name">
+              <mat-error *ngIf="sellerForm.controls.name.hasError('required')">
+                Por favor, digite o nome do vendedor.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+              <input matInput type="tel" formControlName="telephone" placeholder="Telefone" [(ngModel)]="seller.telephone">
+              <mat-error *ngIf="sellerForm.controls.telephone.hasError('required')">
+                Por favor, digite o telefone do vendedor.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="45">
+              <input matInput type="number" formControlName="commissionValue" placeholder="Comissão" [(ngModel)]="seller.commissionValue">
+              <mat-error *ngIf="sellerForm.controls.commissionValue.hasError('required')">
+                Por favor, digite a comissão do vendedor.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <button mat-button color="primary" type="submit" [disabled]="!sellerForm.valid">
+            <mat-icon>done</mat-icon>Salvar
+          </button>
+
+        </form>
+
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-raised-button (click)="goBack()">Voltar</button>
+          <button mat-raised-button (click)="clear()">Limpar</button>
+      </mat-card-actions>
+      <mat-card-footer>
+
+      </mat-card-footer>
+    </mat-card>
+
+  </div>
+</div>

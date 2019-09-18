@@ -1,0 +1,33 @@
+<div layout="column" layout-fill>
+  <div align="center" layout="row" layout-align="center center">
+
+    <mat-card class="info-card mat-elevation-z8" flex="80" style="margin-top: 60px;width: 800px;;">
+
+      <mat-card-title>Deletar o Vendedor</mat-card-title>
+      <mat-card-subtitle>Tem certeza que quer deletar o vendedor abaixo ?</mat-card-subtitle>
+
+      <mat-card-content fxLayout="column" fxLayoutAlign="stretch">
+        <div>
+          <p>Nome do vendedor: </p>
+          <p>{{sellerDelete.name}}</p>
+        </div>
+        <div>
+          <p>Telefone: </p>
+          <p>{{sellerDelete.telephone}}</p>
+        </div>
+        <div>
+          <p>Valor da Comissão: </p>
+          <p>{{sellerDelete.commissionValue | currency: 'BRL' }}</p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="goBack()">Voltar</button>
+        <button mat-raised-button (click)="goDelete()">Deletar</button>
+      </mat-card-actions>
+      <mat-card-footer>
+
+      </mat-card-footer>
+    </mat-card>
+
+  </div>
+</div>

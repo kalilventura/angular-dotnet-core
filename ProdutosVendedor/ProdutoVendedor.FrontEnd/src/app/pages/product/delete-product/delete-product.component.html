@@ -1,0 +1,37 @@
+<div layout="column" layout-fill>
+  <div align="center" layout="row" layout-align="center center">
+
+    <mat-card class="info-card mat-elevation-z8" flex="80" style="margin-top: 60px;width: 800px;;">
+
+      <mat-card-title>Deletar o Produto</mat-card-title>
+      <mat-card-subtitle>Tem certeza que quer deletar o produto abaixo ?</mat-card-subtitle>
+
+      <mat-card-content fxLayout="column" fxLayoutAlign="stretch">
+        <div>
+          <p>Nome do produto: </p>
+          <p>{{productDelete.name}}</p>
+        </div>
+        <div>
+          <p>Descrição: </p>
+          <p>{{productDelete.description}}</p>
+        </div>
+        <div>
+          <p>Código de Barras: </p>
+          <p>{{productDelete.barCode}}</p>
+        </div>
+        <div>
+          <p>Preço</p>
+          <p>{{productDelete.price | currency: 'BRL' }}</p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-raised-button (click)="goBack()">Voltar</button>
+          <button mat-raised-button (click)="goDelete()">Deletar</button>
+      </mat-card-actions>
+      <mat-card-footer>
+
+      </mat-card-footer>
+    </mat-card>
+
+  </div>
+</div>
