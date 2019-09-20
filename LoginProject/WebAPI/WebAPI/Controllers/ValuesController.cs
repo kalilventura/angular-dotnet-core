@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using login_webapi.Database.Context;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Models;
 
-namespace login_webapi.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly DatabaseContext _context;
-
-        public ValuesController(DatabaseContext context)
+        public ValuesController(AuthenticationContext context)
         {
-            _context = context;
+                
         }
 
         // GET api/values
