@@ -44,16 +44,6 @@ namespace CompanyAPI.Services.Implementation
             return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
         }
 
-        public bool isAuthenticaded(UserViewModel user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool isAuthorized(UserViewModel user)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<LoginUser> login(UserViewModel user)
         {
             try
@@ -70,11 +60,12 @@ namespace CompanyAPI.Services.Implementation
                     token = await GenerateToken(user.Email);
                 else
                     throw new Exception("Forbidden");
-                
+
                 return new LoginUser
                 {
                     Employee = null,
-                    Token = token
+                    Token = token,
+                    Role = string.Empty
                 };
 
             }
