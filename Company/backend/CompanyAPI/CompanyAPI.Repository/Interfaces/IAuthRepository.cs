@@ -12,9 +12,9 @@ namespace CompanyAPI.Repository.Interfaces
     public interface IAuthRepository
     {
         Task<IdentityResult> CreateUser(UserViewModel user);
-        Task<bool> userExists(UserViewModel user);
-        Task<ApplicationUser> FindUserByEmail(string email);
+        Task<bool> UserExists(string username);
+        Task<ApplicationUser> FindUserByUserName(string email);
         Task<ClaimsIdentity> GetUserClaims(ApplicationUser user);
-        Task<SignInResult> SignIn(UserViewModel user);
+        Task<SignInResult> SignIn(LoginViewModel user);
     }
 }

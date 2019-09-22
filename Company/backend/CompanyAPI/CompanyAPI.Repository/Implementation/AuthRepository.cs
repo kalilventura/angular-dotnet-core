@@ -27,7 +27,8 @@ namespace CompanyAPI.Repository.Implementation
             var applicationUser = new ApplicationUser()
             {
                 UserName = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                FullName = user.FullName
             };
 
             try
@@ -43,9 +44,9 @@ namespace CompanyAPI.Repository.Implementation
 
         }
 
-        public async Task<ApplicationUser> FindUserByEmail(string email)
+        public async Task<ApplicationUser> FindUserByUserName(string username)
         {
-            return await _userManager.FindByEmailAsync(email);
+            return await _userManager.FindByNameAsync(username);
         }
 
         public async Task<ClaimsIdentity> GetUserClaims(ApplicationUser user)
@@ -63,17 +64,17 @@ namespace CompanyAPI.Repository.Implementation
             }
         }
 
-        public async Task<SignInResult> SignIn(UserViewModel user)
+        public async Task<SignInResult> SignIn(LoginViewModel user)
         {
             return await _signInManager
-                .PasswordSignInAsync(user.Email, user.Password, isPersistent: false, lockoutOnFailure: true);
+                .PasswordSignInAsync(user.UserName, user.Password, isPersistent: false, lockoutOnFailure: true);
         }
 
-        public async Task<bool> userExists(UserViewModel user)
+        public async Task<bool> UserExists(string username)
         {
             try
             {
-                var result = await _userManager.FindByEmailAsync(user.Email);
+                var result = await _userManager.FindByNameAsync(username);
 
                 return result != null;
             }

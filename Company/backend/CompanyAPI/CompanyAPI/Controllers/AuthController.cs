@@ -25,9 +25,9 @@ namespace CompanyAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
             try
             {
-                await _authService.register(user);
+                await _authService.Register(user);
 
-                return Ok(new { message = "" });
+                return Ok(new { message = "User successfully registered." });
             }
             catch (Exception ex)
             {
@@ -37,13 +37,13 @@ namespace CompanyAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(UserViewModel user)
+        public async Task<IActionResult> Login(LoginViewModel user)
         {
             try
             {
                 if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
 
-                var login = await _authService.login(user);
+                var login = await _authService.Login(user);
 
                 return Ok(new { login });
             }

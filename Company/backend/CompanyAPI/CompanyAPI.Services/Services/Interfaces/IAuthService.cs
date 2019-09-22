@@ -8,7 +8,7 @@ namespace CompanyAPI.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<LoginUser> login(UserViewModel user);
-        Task<IdentityResult> register(UserViewModel user);
+        Task<LoginUser> Login(LoginViewModel user);
+        Task<IdentityResult> Register(UserViewModel user);
     }
 }

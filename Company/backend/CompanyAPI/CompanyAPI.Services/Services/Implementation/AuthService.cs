@@ -25,11 +25,11 @@ namespace CompanyAPI.Services.Implementation
             _appSettings = settings.Value;
         }
 
-        private async Task<string> GenerateToken(string email)
+        private async Task<string> GenerateToken(string userName)
         {
-            var user = await _authRepository.FindUserByEmail(email);
+            var user = await _authRepository.FindUserByUserName(userName);
 
-            var identityClaims = await _authRepository.GetUserClaims(user);
+            //var identityClaims = await _authRepository.GetUserClaims(user);
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -37,24 +37,24 @@ namespace CompanyAPI.Services.Implementation
             
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = identityClaims,
-
+                //Subject = identityClaims,
                 Issuer = _appSettings.Issuer,
                 Audience = _appSettings.Audience,
                 Expires = DateTime.UtcNow.AddHours(_appSettings.Expires),
-
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            return tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor));
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
 
-        public async Task<LoginUser> login(UserViewModel user)
+        public async Task<LoginUser> Login(LoginViewModel user)
         {
             try
             {
                 string token = string.Empty;
-                bool userExists = await _authRepository.userExists(user);
+                bool userExists = await _authRepository.UserExists(user.UserName);
 
                 if (!userExists)
                     throw new Exception("User not exists");
@@ -62,7 +62,7 @@ namespace CompanyAPI.Services.Implementation
                 var result = await _authRepository.SignIn(user);
 
                 if (result.Succeeded)
-                    token = await GenerateToken(user.Email);
+                    token = await GenerateToken(user.UserName);
                 else
                     throw new Exception("Forbidden");
 
@@ -80,11 +80,12 @@ namespace CompanyAPI.Services.Implementation
             }
         }
 
-        public async Task<IdentityResult> register(UserViewModel user)
+        public async Task<IdentityResult> Register(UserViewModel user)
         {
             try
             {
-                bool userExists = await _authRepository.userExists(user);
+                
+                bool userExists = await _authRepository.UserExists(user.Email);
 
                 if (userExists)
                     throw new Exception("User exists");
