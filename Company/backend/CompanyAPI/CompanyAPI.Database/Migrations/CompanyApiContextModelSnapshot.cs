@@ -19,108 +19,6 @@ namespace CompanyAPI.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CompanyAPI.Domain.Models.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Complement")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("District")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(10);
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<int>("Type")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasMaxLength(13);
-
-                    b.HasKey("Id")
-                        .HasName("AddressId");
-
-                    b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("CompanyAPI.Domain.Models.Company", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Document")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id")
-                        .HasName("CompanyId");
-
-                    b.ToTable("Companies");
-                });
-
-            modelBuilder.Entity("CompanyAPI.Domain.Models.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Document")
-                        .IsRequired()
-                        .HasMaxLength(12);
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(400);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(400);
-
-                    b.HasKey("Id")
-                        .HasName("EmployeeId");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("CompanyAPI.Domain.Models.EmployeeAddresses", b =>
-                {
-                    b.Property<int>("EmployeeId");
-
-                    b.Property<int>("AddressId");
-
-                    b.HasKey("EmployeeId", "AddressId");
-
-                    b.HasIndex("AddressId");
-
-                    b.ToTable("EmployeeAddresses");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -175,6 +73,9 @@ namespace CompanyAPI.Database.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -214,6 +115,8 @@ namespace CompanyAPI.Database.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -238,9 +141,11 @@ namespace CompanyAPI.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -271,9 +176,11 @@ namespace CompanyAPI.Database.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
@@ -282,17 +189,11 @@ namespace CompanyAPI.Database.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CompanyAPI.Domain.Models.EmployeeAddresses", b =>
+            modelBuilder.Entity("CompanyAPI.Domain.ValueObjects.ApplicationUser", b =>
                 {
-                    b.HasOne("CompanyAPI.Domain.Models.Address", "Addresses")
-                        .WithMany("EmployeeAddresses")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.HasOne("CompanyAPI.Domain.Models.Employee", "Employees")
-                        .WithMany("EmployeeAddresses")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
