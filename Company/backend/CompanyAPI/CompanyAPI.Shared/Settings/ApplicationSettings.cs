@@ -6,7 +6,7 @@
         public string Client_URL { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
-        public string Expires { get; set; }
+        public int Expires { get; set; }
     }
     
 }

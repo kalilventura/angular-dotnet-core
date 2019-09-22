@@ -1,5 +1,6 @@
 ﻿using CompanyAPI.Database.ConfigureModels;
 using CompanyAPI.Domain.Models;
+using CompanyAPI.Domain.ValueObjects;
 using CompanyAPI.Domain.ViewModel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace CompanyAPI.Database.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<EmployeeAddresses> EmployeeAddresses { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
