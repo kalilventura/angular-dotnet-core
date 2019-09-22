@@ -1,17 +1,16 @@
-﻿
-using CompanyAPI.Domain.Models;
+﻿using CompanyAPI.Domain.Models;
+using CompanyAPI.Domain.ValueObjects;
 using CompanyAPI.Domain.ViewModel;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace CompanyAPI.Services.Interfaces
 {
     public interface IAuthService
     {
-        Employee login(UserViewModel user);
-        void logout();
+        Task<LoginUser> login(UserViewModel user);
         bool isAuthorized(UserViewModel user);
         bool isAuthenticaded(UserViewModel user);
-        UserViewModel register(UserViewModel user);
-        string generateToken(UserViewModel user);
-        bool userExists(UserViewModel user);
+        Task<IdentityResult> register(UserViewModel user);
     }
 }

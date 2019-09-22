@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CompanyAPI.Database\CompanyAPI.Database.csproj" />
     <ProjectReference Include="..\CompanyAPI.Domain\CompanyAPI.Domain.csproj" />
+    <ProjectReference Include="..\CompanyAPI.Shared\CompanyAPI.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,9 @@
 ﻿using CompanyAPI.Domain.ViewModel;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CompanyAPI.Controllers
 {
@@ -9,29 +12,45 @@ namespace CompanyAPI.Controllers
     public class AuthController : ControllerBase
     {
         private IAuthService _authService;
+
         public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
 
         [HttpPost]
-        public IActionResult Register([FromBody] UserViewModel user)
+        [Route("Register")]
+        public async Task<IActionResult> Register(UserViewModel user)
         {
-            _authService.register(user);
-            return Ok();
+            if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            try
+            {
+                await _authService.register(user);
+
+                return Ok(new { message = "" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpPost]
-        public IActionResult Login([FromBody] UserViewModel user)
+        [Route("Login")]
+        public async Task<IActionResult> Login(UserViewModel user)
         {
-            _authService.login(user);
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
 
-            return Ok();
-        }
+                var login = await _authService.login(user);
 
-        private string GenerateToken(UserViewModel user)
-        {
-            return _authService.generateToken(user);
+                return Ok(new { login });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

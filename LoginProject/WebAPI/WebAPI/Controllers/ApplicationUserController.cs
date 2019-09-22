@@ -65,7 +65,7 @@ namespace WebAPI.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var role = await _userManager.GetRolesAsync(user);
-                IdentityOptions _options = new IdentityOptions()
+                IdentityOptions _options = new IdentityOptions();
 
                 SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
                 {
