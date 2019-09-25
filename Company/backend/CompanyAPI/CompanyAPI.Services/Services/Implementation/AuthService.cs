@@ -31,20 +31,23 @@ namespace CompanyAPI.Services.Implementation
 
             //var identityClaims = await _authRepository.GetUserClaims(user);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_appSettings.JWT_Secret);
 
-            var key = Encoding.ASCII.GetBytes(_appSettings.JWT_Secret);
-            
+            var securityKey = new SymmetricSecurityKey(key);
+
+            var credentials = new SigningCredentials(securityKey,
+                            Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 //Subject = identityClaims,
                 Issuer = _appSettings.Issuer,
                 Audience = _appSettings.Audience,
                 Expires = DateTime.UtcNow.AddHours(_appSettings.Expires),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                            Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = credentials
             };
 
+            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
@@ -54,18 +57,7 @@ namespace CompanyAPI.Services.Implementation
         {
             try
             {
-                string token = string.Empty;
-                bool userExists = await _authRepository.UserExists(user.UserName);
-
-                if (!userExists)
-                    throw new Exception("User not exists");
-
-                var result = await _authRepository.SignIn(user);
-
-                if (result.Succeeded)
-                    token = await GenerateToken(user.UserName);
-                else
-                    throw new Exception("Forbidden");
+                string token = await GenerateToken(user.UserName);
 
                 return new LoginUser
                 {
@@ -85,18 +77,35 @@ namespace CompanyAPI.Services.Implementation
         {
             try
             {
-                
-                bool userExists = await _authRepository.UserExists(user.Email);
-
-                if (userExists)
-                    throw new Exception("User exists");
-
-                var result = await _authRepository.CreateUser(user);
-                return result;
+                return await _authRepository.CreateUser(user);
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public async Task<bool> UserExists(string UserName)
+        {
+            try
+            {
+                return await _authRepository.UserExists(UserName);
+            }
+            catch (Exception err)
+            {
+                throw err;
+            }
+        }
+
+        public async Task<SignInResult> UserSignIn(LoginViewModel login)
+        {
+            try
+            {
+                return await _authRepository.SignIn(login);
+            }
+            catch (Exception err)
+            {
+                throw err;
             }
         }
     }
