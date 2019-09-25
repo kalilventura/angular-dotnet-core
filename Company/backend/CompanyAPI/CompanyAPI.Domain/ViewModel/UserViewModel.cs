@@ -4,17 +4,20 @@ namespace CompanyAPI.Domain.ViewModel
 {
     public class UserViewModel
     {
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
-        [DataType(DataType.Password,ErrorMessage = "Senha incorreta")]
+        [Required(ErrorMessage = "The field {0} is required")]
+        [StringLength(100, ErrorMessage = "The field {0} need between {2} and {1} characters.", MinimumLength = 6)]
+        [DataType(DataType.Password,ErrorMessage = "Password Incorrect.")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "The field {0} is required")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "The field {0} is required")]
+        public string Username { get; set; }
+
         public string Role { get; set; }
+
         public string FullName { get; set; }
     }
 }

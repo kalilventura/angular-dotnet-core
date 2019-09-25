@@ -28,19 +28,22 @@ namespace CompanyAPI.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
 
-                bool userExists = await _authService.UserExists(user.UserName);
+                bool userExists = await _authService.UserExists(user.Username);
 
                 if (userExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "UserName exists." });
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Username exists." });
 
                 bool emailExists = await _authService.EmailExists(user.Email);
 
-                if(emailExists)
+                if (emailExists)
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Email exists." });
 
-                await _authService.Register(user);
+                var isRegistered = await _authService.Register(user);
 
-                return StatusCode(StatusCodes.Status201Created ,new { message = "User successfully registered." });
+                if (!isRegistered.Succeeded)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = isRegistered.Errors });
+
+                return StatusCode(StatusCodes.Status201Created, new { message = "User successfully registered." });
             }
             catch (Exception ex)
             {

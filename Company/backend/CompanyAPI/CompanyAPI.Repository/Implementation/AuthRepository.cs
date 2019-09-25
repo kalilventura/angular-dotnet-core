@@ -26,7 +26,7 @@ namespace CompanyAPI.Repository.Implementation
         {
             var applicationUser = new ApplicationUser()
             {
-                UserName = user.UserName,
+                UserName = user.Username,
                 Email = user.Email,
                 FullName = user.FullName
             };
@@ -85,6 +85,11 @@ namespace CompanyAPI.Repository.Implementation
             var result = await _userManager.FindByEmailAsync(email);
 
             return result != null;
+        }
+
+        public async Task<ApplicationUser> FindUserByUserName(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
         }
     }
 }
