@@ -44,11 +44,6 @@ namespace CompanyAPI.Repository.Implementation
 
         }
 
-        public async Task<ApplicationUser> FindUserByUserName(string username)
-        {
-            return await _userManager.FindByNameAsync(username);
-        }
-
         public async Task<ClaimsIdentity> GetUserClaims(ApplicationUser user)
         {
             try
@@ -75,7 +70,7 @@ namespace CompanyAPI.Repository.Implementation
             try
             {
                 var result = await _userManager.FindByNameAsync(username);
-
+                
                 return result != null;
             }
             catch (Exception ex)
@@ -83,6 +78,13 @@ namespace CompanyAPI.Repository.Implementation
                 throw ex;
             }
 
+        }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            var result = await _userManager.FindByEmailAsync(email);
+
+            return result != null;
         }
     }
 }

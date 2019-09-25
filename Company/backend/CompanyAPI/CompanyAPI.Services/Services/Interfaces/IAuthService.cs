@@ -10,6 +10,7 @@ namespace CompanyAPI.Services.Interfaces
         Task<LoginUser> Login(LoginViewModel user);
         Task<IdentityResult> Register(UserViewModel user);
         Task<bool> UserExists(string UserName);
+        Task<bool> EmailExists(string Email);
         Task<SignInResult> UserSignIn(LoginViewModel login);
     }
 }

@@ -31,7 +31,12 @@ namespace CompanyAPI.Controllers
                 bool userExists = await _authService.UserExists(user.UserName);
 
                 if (userExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "User exists." });
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "UserName exists." });
+
+                bool emailExists = await _authService.EmailExists(user.Email);
+
+                if(emailExists)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Email exists." });
 
                 await _authService.Register(user);
 

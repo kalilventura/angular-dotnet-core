@@ -108,5 +108,10 @@ namespace CompanyAPI.Services.Implementation
                 throw err;
             }
         }
+
+        public async Task<bool> EmailExists(string Email)
+        {
+            return await _authRepository.EmailExists(Email);
+        }
     }
 }

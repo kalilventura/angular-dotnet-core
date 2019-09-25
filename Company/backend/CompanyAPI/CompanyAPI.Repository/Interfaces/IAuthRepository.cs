@@ -13,7 +13,7 @@ namespace CompanyAPI.Repository.Interfaces
     {
         Task<IdentityResult> CreateUser(UserViewModel user);
         Task<bool> UserExists(string username);
-        Task<ApplicationUser> FindUserByUserName(string email);
+        Task<bool> EmailExists(string email);
         Task<ClaimsIdentity> GetUserClaims(ApplicationUser user);
         Task<SignInResult> SignIn(LoginViewModel user);
     }
