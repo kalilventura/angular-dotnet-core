@@ -33,8 +33,6 @@ namespace CompanyAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IdentityModelEventSource.ShowPII = true;
-
             //Inject AppSettings
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
@@ -56,11 +54,6 @@ namespace CompanyAPI
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
-
-            services
-                .AddMvcCore()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonFormatters();
 
             //Jwt Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
@@ -84,7 +77,11 @@ namespace CompanyAPI
                     };
                 });
 
-            services.AddCors();
+            services
+                .AddMvcCore()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonFormatters()
+                .AddCors();
 
         }
 
