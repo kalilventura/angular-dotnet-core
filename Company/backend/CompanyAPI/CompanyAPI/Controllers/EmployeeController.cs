@@ -1,5 +1,6 @@
 ﻿using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -26,12 +27,12 @@ namespace CompanyAPI.Controllers
             {
                 var employees = await employeeService.GetAll();
 
-                return Ok(employees.ToList());
+                return StatusCode(StatusCodes.Status200OK, new { employees = employees.ToList() });
 
             }
             catch (Exception err)
             {
-                return BadRequest(err.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
             }
         }
 
@@ -43,12 +44,12 @@ namespace CompanyAPI.Controllers
             {
                 var employee = await employeeService.GetById(id);
 
-                return Ok(employee);
+                return StatusCode(StatusCodes.Status200OK , new { employee = employee });
 
             }
             catch (Exception err)
             {
-                return BadRequest(err.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
             }
         }
 
@@ -60,12 +61,12 @@ namespace CompanyAPI.Controllers
             {
                 var result = await employeeService.Add(employee);
 
-                return Ok(result);
+                return StatusCode(StatusCodes.Status200OK, new { employee = result });
 
             }
             catch (Exception err)
             {
-                return BadRequest(err.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
             }
         }
 
@@ -75,13 +76,13 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                var result = await employeeService.Alter(employee);
+                var alteredEmployee = await employeeService.Alter(employee);
 
-                return Ok(result);
+                return StatusCode(StatusCodes.Status200OK, new { employee = alteredEmployee });
             }
             catch (Exception err)
             {
-                return BadRequest(err.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
             }
         }
 
@@ -93,11 +94,11 @@ namespace CompanyAPI.Controllers
             {
                 await employeeService.Delete(employee);
 
-                return Ok();
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception err)
             {
-                return BadRequest(err.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
             }
         }
     }

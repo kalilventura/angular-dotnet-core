@@ -54,7 +54,6 @@ namespace CompanyAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel user)
         {
             try

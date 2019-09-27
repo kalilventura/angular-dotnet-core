@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,8 @@ namespace CompanyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+    [ValidateAntiForgeryToken]
     public class CompanyController : ControllerBase
     {
         private ICompanyService companyService;
@@ -20,7 +23,6 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Get()
         {
             try
@@ -42,6 +44,8 @@ namespace CompanyAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid) return BadRequest();
+
                 var company = await companyService.GetById(id);
 
                 return StatusCode(StatusCodes.Status200OK, new { company = company });
