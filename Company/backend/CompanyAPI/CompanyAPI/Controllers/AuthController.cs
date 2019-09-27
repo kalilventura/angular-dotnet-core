@@ -1,5 +1,6 @@
 ﻿using CompanyAPI.Domain.ViewModel;
 using CompanyAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -53,6 +54,7 @@ namespace CompanyAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel user)
         {
             try

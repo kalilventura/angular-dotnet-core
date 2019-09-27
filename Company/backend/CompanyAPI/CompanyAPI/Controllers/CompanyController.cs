@@ -20,6 +20,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Get()
         {
             try
@@ -36,6 +37,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -52,6 +54,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Post(Company company)
         {
             try
@@ -75,6 +78,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPut]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(Company company)
         {
             try
@@ -97,6 +101,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpDelete]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Company company)
         {
             try
