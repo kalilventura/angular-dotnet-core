@@ -15,11 +15,11 @@ namespace CompanyAPI.Controllers
     [ValidateAntiForgeryToken]
     public class CompanyController : ControllerBase
     {
-        private ICompanyService companyService;
+          ICompanyService _companyService;
 
         public CompanyController(ICompanyService companyService)
         {
-            this.companyService = companyService;
+            _companyService = companyService;
         }
 
         [HttpGet]
@@ -27,7 +27,7 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                var companies = await companyService.GetAll();
+                var companies = await _companyService.GetAll();
 
                 return StatusCode(StatusCodes.Status200OK, new { companies = companies });
 
@@ -46,7 +46,7 @@ namespace CompanyAPI.Controllers
             {
                 if (!ModelState.IsValid) return BadRequest();
 
-                var company = await companyService.GetById(id);
+                var company = await _companyService.GetById(id);
 
                 return StatusCode(StatusCodes.Status200OK, new { company = company });
 
@@ -67,10 +67,10 @@ namespace CompanyAPI.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable, 
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
 
-                if (companyService.Exists(company))
+                if (_companyService.Exists(company))
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company Exists" });
 
-                var result = await companyService.Add(company);
+                var result = await _companyService.Add(company);
 
                 return StatusCode(StatusCodes.Status201Created,new { company = result });
 
@@ -91,10 +91,10 @@ namespace CompanyAPI.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable, 
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
 
-                if (!companyService.Exists(company))
+                if (!_companyService.Exists(company))
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
-                var result = await companyService.Alter(company);
+                var result = await _companyService.Alter(company);
 
                 return StatusCode(StatusCodes.Status200OK, new { company = result });
             }
@@ -114,10 +114,10 @@ namespace CompanyAPI.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable,
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
 
-                if (!companyService.Exists(company))
+                if (!_companyService.Exists(company))
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
-                await companyService.Delete(company);
+                await _companyService.Delete(company);
 
                 return StatusCode(StatusCodes.Status204NoContent);
             }

@@ -15,9 +15,9 @@ namespace CompanyAPI.Domain.Models
             Email = email;
         }
 
-        public string Name { get; private set; }
-        public string Document { get; private set; }
-        public string Email { get; private set; }
-        public virtual ICollection<EmployeeAddresses> EmployeeAddresses { get; private set; }
+        public string Name { get; set; }
+        public string Document { get; set; }
+        public string Email { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

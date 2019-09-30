@@ -16,8 +16,8 @@ namespace CompanyAPI.Services.Implementation
 {
     public class AuthService : IAuthService
     {
-        private readonly IAuthRepository _authRepository;
-        private readonly ApplicationSettings _appSettings;
+          readonly IAuthRepository _authRepository;
+          readonly ApplicationSettings _appSettings;
 
         public AuthService(IAuthRepository authRepository, IOptions<ApplicationSettings> settings)
         {

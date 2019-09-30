@@ -1,41 +1,12 @@
 ﻿using CompanyAPI.Domain.Models;
+using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using CompanyAPI.Services.Services.Implementation;
 
 namespace CompanyAPI.Services.Implementation
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : BaseService<Employee>, IEmployeeService
     {
-        public Task<Employee> Add(Employee entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> Alter(Employee entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete(Employee entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Exists(Employee entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Employee>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public EmployeeService(IGenericRepository<Employee> company): base(company) { }
     }
 }

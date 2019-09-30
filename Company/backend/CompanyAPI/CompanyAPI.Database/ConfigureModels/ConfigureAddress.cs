@@ -56,6 +56,7 @@ namespace CompanyAPI.Database.ConfigureModels
                 .Property(x => x.ZipCode)
                 .IsRequired()
                 .HasMaxLength(13);
+
         }
     }
 }

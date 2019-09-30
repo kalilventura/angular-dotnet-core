@@ -1,132 +1,18 @@
-﻿using CompanyAPI.Database.Context;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using CompanyAPI.Database.Context;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompanyAPI.Repository.Implementation
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
-        //private readonly CompanyApiContext _context;
+        public EmployeeRepository(CompanyApiContext context) : base(context) { }
 
-        //public EmployeeRepository(CompanyApiContext context)
-        //{
-        //    _context = context;
-        //}
-
-        //public async Task<Employee> AddAsync(Employee entity)
-        //{
-        //    try
-        //    {
-        //        await _context.Employees.AddAsync(entity);
-        //        await SaveChangesAsync();
-        //        return entity;
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw err;
-        //    }
-        //}
-
-        //public async void DeleteAsync(Employee entity)
-        //{
-        //    try
-        //    {
-        //        _context.Employees.Remove(entity);
-        //        await SaveChangesAsync();
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw err;
-        //    }
-        //}
-
-        //public bool Exists(Employee entity)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public async Task<IEnumerable<Employee>> GetAll()
-        //{
-        //    try
-        //    {
-        //        return _context.Employees;
-
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw err;
-        //    }
-        //}
-
-        //public async Task<Employee> GetById(int id)
-        //{
-        //    try
-        //    {
-        //        return _context.Employees.FirstOrDefault(x => x.Id.Equals(id));
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw err;
-        //    }
-        //}
-
-        //public async Task SaveChangesAsync()
-        //{
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public async Task<Employee> UpdateAsync(Employee entity)
-        //{
-        //    try
-        //    {
-        //        _context.Employees.Update(entity);
-        //        await SaveChangesAsync();
-        //        return entity;
-        //    }
-        //    catch (Exception err)
-        //    {
-        //        throw err;
-        //    }
-
-        //}
-        public Task<Employee> AddAsync(Employee entity)
+        public async Task<Employee> FindByName(string name)
         {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteAsync(Employee entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Exists(Employee entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Employee>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Employee> UpdateAsync(Employee entity)
-        {
-            throw new NotImplementedException();
+            return _context.Employees.FirstOrDefault(x => x.Name.Equals(name));
         }
     }
 }

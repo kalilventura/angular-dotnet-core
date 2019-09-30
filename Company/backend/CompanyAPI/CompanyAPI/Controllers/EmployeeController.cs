@@ -12,11 +12,11 @@ namespace CompanyAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private IEmployeeService employeeService;
+        IEmployeeService _employeeService;
 
         public EmployeeController(IEmployeeService employeeService)
         {
-            this.employeeService = employeeService;
+            _employeeService = employeeService;
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                var employees = await employeeService.GetAll();
+                var employees = await _employeeService.GetAll();
 
                 return StatusCode(StatusCodes.Status200OK, new { employees = employees.ToList() });
 
@@ -42,9 +42,9 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                var employee = await employeeService.GetById(id);
+                var employee = await _employeeService.GetById(id);
 
-                return StatusCode(StatusCodes.Status200OK , new { employee = employee });
+                return StatusCode(StatusCodes.Status200OK, new { employee = employee });
 
             }
             catch (Exception err)
@@ -59,7 +59,7 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                var result = await employeeService.Add(employee);
+                var result = await _employeeService.Add(employee);
 
                 return StatusCode(StatusCodes.Status200OK, new { employee = result });
 
@@ -76,7 +76,7 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                var alteredEmployee = await employeeService.Alter(employee);
+                var alteredEmployee = await _employeeService.Alter(employee);
 
                 return StatusCode(StatusCodes.Status200OK, new { employee = alteredEmployee });
             }
@@ -92,7 +92,7 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                await employeeService.Delete(employee);
+                await _employeeService.Delete(employee);
 
                 return StatusCode(StatusCodes.Status204NoContent);
             }

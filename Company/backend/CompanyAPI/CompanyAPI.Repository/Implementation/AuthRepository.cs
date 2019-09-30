@@ -12,8 +12,8 @@ namespace CompanyAPI.Repository.Implementation
     public class AuthRepository : IAuthRepository
     {
 
-        private readonly UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
+          private readonly UserManager<ApplicationUser> _userManager;
+          private SignInManager<ApplicationUser> _signInManager;
 
         public AuthRepository(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)

@@ -12,7 +12,7 @@
             Number = number;
         }
 
-        public string Number { get; private set; }
+        public string Number { get;   set; }
 
         public bool Validate(string cpf)
         {

@@ -15,11 +15,11 @@ namespace CompanyAPI.Domain.Models
         [Required(ErrorMessage = "The field {0} is required", AllowEmptyStrings = false)]
         [StringLength(100, ErrorMessage = "Invalid Company Name", MinimumLength = 6)]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        public string CompanyName { get; private set; }
+        public string CompanyName { get;   set; }
 
         [Required(ErrorMessage = "The field {0} is required", AllowEmptyStrings = false)]
         [StringLength(100, ErrorMessage = "Invalid Document", MinimumLength = 6)]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        public string Document { get; private set; }
+        public string Document { get;   set; }
     }
 }
