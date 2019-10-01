@@ -22,7 +22,7 @@ namespace CompanyAPI.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> Register(UserViewModel user)
+        public async Task<IActionResult> Register(User user)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace CompanyAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login(LoginViewModel user)
+        public async Task<IActionResult> Login(Login user)
         {
             try
             {

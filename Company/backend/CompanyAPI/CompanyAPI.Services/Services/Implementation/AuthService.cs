@@ -1,5 +1,4 @@
 ﻿using CompanyAPI.Domain.Models;
-using CompanyAPI.Domain.ValueObjects;
 using CompanyAPI.Domain.ViewModel;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Interfaces;
@@ -53,13 +52,13 @@ namespace CompanyAPI.Services.Implementation
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<LoginUser> Login(LoginViewModel user)
+        public async Task<User> Login(Login user)
         {
             try
             {
                 string token = await GenerateToken(user.UserName);
 
-                return new LoginUser
+                return new User
                 {
                     Employee = null,
                     Token = token,
@@ -73,7 +72,7 @@ namespace CompanyAPI.Services.Implementation
             }
         }
 
-        public async Task<IdentityResult> Register(UserViewModel user)
+        public async Task<IdentityResult> Register(User user)
         {
             try
             {
@@ -97,7 +96,7 @@ namespace CompanyAPI.Services.Implementation
             }
         }
 
-        public async Task<SignInResult> UserSignIn(LoginViewModel login)
+        public async Task<SignInResult> UserSignIn(Login login)
         {
             try
             {

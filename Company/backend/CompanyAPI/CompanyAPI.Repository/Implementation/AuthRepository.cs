@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using CompanyAPI.Domain.ValueObjects;
+using CompanyAPI.Domain.Models;
 using CompanyAPI.Domain.ViewModel;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Shared.Settings;
@@ -22,7 +22,7 @@ namespace CompanyAPI.Repository.Implementation
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> CreateUser(UserViewModel user)
+        public async Task<IdentityResult> CreateUser(User user)
         {
             var applicationUser = new ApplicationUser()
             {
@@ -59,7 +59,7 @@ namespace CompanyAPI.Repository.Implementation
             }
         }
 
-        public async Task<SignInResult> SignIn(LoginViewModel user)
+        public async Task<SignInResult> SignIn(Login user)
         {
             return await _signInManager
                 .PasswordSignInAsync(user.UserName, user.Password, isPersistent: false, lockoutOnFailure: true);

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text;
 using CompanyAPI.Database.Context;
-using CompanyAPI.Domain.ValueObjects;
-using CompanyAPI.Domain.ViewModel;
+using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Implementation;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Implementation;
@@ -17,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CompanyAPI

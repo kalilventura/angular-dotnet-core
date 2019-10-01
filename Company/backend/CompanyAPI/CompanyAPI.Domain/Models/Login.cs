@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CompanyAPI.Domain.ViewModel
 {
-    public class LoginViewModel
+    public class Login
     {
         [DataType(DataType.Text)]
         [Required]

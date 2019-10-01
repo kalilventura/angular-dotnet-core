@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CompanyAPI.Domain.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace CompanyAPI.Domain.ViewModel
 {
-    public class UserViewModel
+    public class User
     {
         [Required(ErrorMessage = "The field {0} is required")]
         [StringLength(100, ErrorMessage = "The field {0} need between {2} and {1} characters.", MinimumLength = 6)]
@@ -19,5 +20,9 @@ namespace CompanyAPI.Domain.ViewModel
         public string Role { get; set; }
 
         public string FullName { get; set; }
+
+        public Employee Employee { get; set; }
+
+        public string Token { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using CompanyAPI.Domain.Models;
-using CompanyAPI.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
