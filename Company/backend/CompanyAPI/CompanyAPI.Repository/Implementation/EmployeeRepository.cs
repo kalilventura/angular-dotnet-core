@@ -10,7 +10,7 @@ namespace CompanyAPI.Repository.Implementation
     {
         public EmployeeRepository(CompanyApiContext context) : base(context) { }
 
-        public async Task<Employee> FindByName(string name)
+        public Employee FindByName(string name)
         {
             return _context.Employees.FirstOrDefault(x => x.Name.Equals(name));
         }

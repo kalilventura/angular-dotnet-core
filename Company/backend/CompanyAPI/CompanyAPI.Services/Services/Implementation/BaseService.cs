@@ -8,7 +8,7 @@ namespace CompanyAPI.Services.Services.Implementation
 {
     public class BaseService<T> : IBaseService<T> where T : Entity
     {
-        private IGenericRepository<T> _repository;
+        private readonly IGenericRepository<T> _repository;
 
         public BaseService(IGenericRepository<T> repository)
         {
@@ -25,7 +25,7 @@ namespace CompanyAPI.Services.Services.Implementation
             return await _repository.UpdateAsync(entity);
         }
 
-        public async Task Delete(T entity)
+        public void Delete(T entity)
         {
             _repository.DeleteAsync(entity);
         }
