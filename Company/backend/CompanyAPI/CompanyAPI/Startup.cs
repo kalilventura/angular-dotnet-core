@@ -7,6 +7,7 @@ using CompanyAPI.Repository.Implementation;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Implementation;
 using CompanyAPI.Services.Interfaces;
+using CompanyAPI.Services.Services.Implementation;
 using CompanyAPI.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -55,6 +56,9 @@ namespace CompanyAPI
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
 
+            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
             //Jwt Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
             services.AddAuthentication(x =>
@@ -63,7 +67,7 @@ namespace CompanyAPI
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(x => 
+                .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = false;
                     x.SaveToken = true;
@@ -90,11 +94,11 @@ namespace CompanyAPI
         {
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-            
+
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             else
                 app.UseHsts();
-            
+
             app.UseCors(builder =>
                builder
                .AllowAnyOrigin()

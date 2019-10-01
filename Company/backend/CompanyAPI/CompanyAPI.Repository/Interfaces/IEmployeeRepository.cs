@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompanyAPI.Repository.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IGenericRepository<Employee>
     {
         Task<Employee> FindByName(string name);
     }

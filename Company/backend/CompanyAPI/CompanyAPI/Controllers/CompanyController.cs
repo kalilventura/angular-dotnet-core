@@ -67,7 +67,7 @@ namespace CompanyAPI.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable, 
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
 
-                if (_companyService.Exists(company))
+                if (await _companyService.Exists(company.Id))
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company Exists" });
 
                 var result = await _companyService.Add(company);
@@ -90,8 +90,9 @@ namespace CompanyAPI.Controllers
                 if (!ModelState.IsValid)
                     return StatusCode(StatusCodes.Status406NotAcceptable, 
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
-
-                if (!_companyService.Exists(company))
+                
+                bool exists = await _companyService.Exists(company.Id);
+                if (!exists)
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
                 var result = await _companyService.Alter(company);
@@ -114,7 +115,8 @@ namespace CompanyAPI.Controllers
                     return StatusCode(StatusCodes.Status406NotAcceptable,
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
 
-                if (!_companyService.Exists(company))
+                bool exists = await _companyService.Exists(company.Id);
+                if (!exists)
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
                 await _companyService.Delete(company);

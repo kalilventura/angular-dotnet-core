@@ -2,7 +2,7 @@
 
 namespace CompanyAPI.Services.Interfaces
 {
-    public interface ICompanyService
+    public interface ICompanyService : IBaseService<Company>
     {
 
     }

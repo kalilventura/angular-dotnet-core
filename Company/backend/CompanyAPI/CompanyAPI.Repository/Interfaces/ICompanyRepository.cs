@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CompanyAPI.Repository.Interfaces
 {
-    public interface ICompanyRepository
+    public interface ICompanyRepository : IGenericRepository<Company>
     {
     }
 }
