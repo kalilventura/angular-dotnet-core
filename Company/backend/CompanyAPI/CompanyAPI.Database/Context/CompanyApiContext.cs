@@ -1,4 +1,5 @@
-﻿using CompanyAPI.Domain.Models;
+﻿using CompanyAPI.Database.ConfigureModels;
+using CompanyAPI.Domain.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ namespace CompanyAPI.Database.Context
             //modelBuilder.ApplyConfiguration<Employee>(new ConfigureEmployee());
             //modelBuilder.ApplyConfiguration<Company>(new ConfigureCompany());
             //modelBuilder.ApplyConfiguration<Address>(new ConfigureAddress());
-            //modelBuilder.ApplyConfiguration<EmployeeAddresses>(new ConfigureEmployeeAddress());
+            modelBuilder.ApplyConfiguration<EmployeeAddress>(new ConfigureEmployeeAddress());
             base.OnModelCreating(modelBuilder);
         }
     }

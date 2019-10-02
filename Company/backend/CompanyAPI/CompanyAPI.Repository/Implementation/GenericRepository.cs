@@ -46,7 +46,7 @@ namespace CompanyAPI.Repository.Implementation
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(int? id)
         {
             return await _dataset.AnyAsync(b => b.Id.Equals(id));
         }
@@ -56,7 +56,7 @@ namespace CompanyAPI.Repository.Implementation
             return await _dataset.ToListAsync();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetById(int? id)
         {
             return await _dataset.FirstOrDefaultAsync(x => x.Id.Equals(id));
         }

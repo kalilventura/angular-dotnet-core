@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using CompanyAPI.Database.Context;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Interfaces;

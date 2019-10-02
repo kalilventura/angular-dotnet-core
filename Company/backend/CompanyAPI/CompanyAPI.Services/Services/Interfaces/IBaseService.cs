@@ -11,6 +11,6 @@ namespace CompanyAPI.Services.Interfaces
         Task<T> Alter(T entity);
         Task<IList<T>> GetAll();
         Task<T> GetById(int id);
-        Task<bool> Exists(int id);
+        Task<bool> Exists(int? id);
     }
 }

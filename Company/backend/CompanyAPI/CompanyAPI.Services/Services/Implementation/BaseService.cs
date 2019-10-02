@@ -30,7 +30,7 @@ namespace CompanyAPI.Services.Implementation
             _repository.DeleteAsync(entity);
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(int? id)
         {
             return await _repository.Exists(id);
         }

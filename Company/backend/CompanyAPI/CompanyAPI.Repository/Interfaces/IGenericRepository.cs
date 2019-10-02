@@ -9,8 +9,8 @@ namespace CompanyAPI.Repository.Interfaces
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         void DeleteAsync(T entity);
-        Task<T> GetById(int id);
-        Task<bool> Exists(int id);
+        Task<T> GetById(int? id);
+        Task<bool> Exists(int? id);
         Task<IList<T>> FindAll();
     }
 }
