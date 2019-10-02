@@ -15,7 +15,7 @@ namespace CompanyAPI.Controllers
     [ValidateAntiForgeryToken]
     public class CompanyController : ControllerBase
     {
-          ICompanyService _companyService;
+        private readonly ICompanyService _companyService;
 
         public CompanyController(ICompanyService companyService)
         {
@@ -64,7 +64,7 @@ namespace CompanyAPI.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, 
+                    return StatusCode(StatusCodes.Status406NotAcceptable,
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
 
                 if (await _companyService.Exists(company.Id))
@@ -72,7 +72,7 @@ namespace CompanyAPI.Controllers
 
                 var result = await _companyService.Add(company);
 
-                return StatusCode(StatusCodes.Status201Created,new { company = result });
+                return StatusCode(StatusCodes.Status201Created, new { company = result });
 
             }
             catch (Exception err)
@@ -88,9 +88,9 @@ namespace CompanyAPI.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, 
+                    return StatusCode(StatusCodes.Status406NotAcceptable,
                         new { message = ModelState.Values.SelectMany(e => e.Errors) });
-                
+
                 bool exists = await _companyService.Exists(company.Id);
                 if (!exists)
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
@@ -119,7 +119,7 @@ namespace CompanyAPI.Controllers
                 if (!exists)
                     return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
-                await _companyService.Delete(company);
+                _companyService.Delete(company);
 
                 return StatusCode(StatusCodes.Status204NoContent);
             }

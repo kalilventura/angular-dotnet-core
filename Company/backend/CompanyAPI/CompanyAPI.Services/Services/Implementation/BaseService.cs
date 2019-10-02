@@ -4,7 +4,7 @@ using CompanyAPI.Services.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CompanyAPI.Services.Services.Implementation
+namespace CompanyAPI.Services.Implementation
 {
     public class BaseService<T> : IBaseService<T> where T : Entity
     {

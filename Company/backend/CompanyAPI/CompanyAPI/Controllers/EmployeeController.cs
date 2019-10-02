@@ -12,7 +12,7 @@ namespace CompanyAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        IEmployeeService _employeeService;
+        private readonly IEmployeeService _employeeService;
 
         public EmployeeController(IEmployeeService employeeService)
         {
@@ -56,6 +56,9 @@ namespace CompanyAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+
                 var result = await _employeeService.Add(employee);
 
                 return StatusCode(StatusCodes.Status200OK, new { employee = result });
@@ -72,6 +75,9 @@ namespace CompanyAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+
                 var alteredEmployee = await _employeeService.Alter(employee);
 
                 return StatusCode(StatusCodes.Status200OK, new { employee = alteredEmployee });
@@ -87,7 +93,10 @@ namespace CompanyAPI.Controllers
         {
             try
             {
-                await _employeeService.Delete(employee);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+
+                _employeeService.Delete(employee);
 
                 return StatusCode(StatusCodes.Status204NoContent);
             }

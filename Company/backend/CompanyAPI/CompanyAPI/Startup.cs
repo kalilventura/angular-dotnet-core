@@ -48,11 +48,17 @@ namespace CompanyAPI
 
             // DI
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<ICompanyService, CompanyService>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+
+            services.AddScoped<IEmployeeAddressService, EmployeeAddressService>();            
+            services.AddScoped<IEmployeeAddressRepository, EmployeeAddressRepository>();
+            
 
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

@@ -1,7 +1,6 @@
 ﻿using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Interfaces;
-using CompanyAPI.Services.Services.Implementation;
 
 namespace CompanyAPI.Services.Implementation
 {
