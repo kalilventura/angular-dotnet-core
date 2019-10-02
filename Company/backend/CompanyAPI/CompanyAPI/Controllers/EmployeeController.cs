@@ -1,7 +1,9 @@
-﻿using CompanyAPI.Domain.Models;
+﻿using CompanyAPI.Database.Context;
+using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,10 +15,17 @@ namespace CompanyAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IAddressService _addressService;
+        private readonly IEmployeeAddressService _employeeAddressService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(
+            IEmployeeService employeeService,
+            IAddressService addressService,
+            IEmployeeAddressService employeeAddressService)
         {
             _employeeService = employeeService;
+            _addressService = addressService;
+            _employeeAddressService = employeeAddressService;
         }
 
         [HttpGet]
@@ -40,9 +49,13 @@ namespace CompanyAPI.Controllers
         {
             try
             {
+                bool employeeExists = await _employeeService.Exists(id);
+                if (!employeeExists)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+
                 var employee = await _employeeService.GetById(id);
 
-                return StatusCode(StatusCodes.Status200OK, new { employee = employee });
+                return StatusCode(StatusCodes.Status200OK, new { selectedEmployee = employee });
 
             }
             catch (Exception err)
@@ -78,6 +91,10 @@ namespace CompanyAPI.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
 
+                bool employeeExists = await _employeeService.Exists(employee.Id);
+                if (!employeeExists)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+
                 var alteredEmployee = await _employeeService.Alter(employee);
 
                 return StatusCode(StatusCodes.Status200OK, new { employee = alteredEmployee });
@@ -105,5 +122,31 @@ namespace CompanyAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
             }
         }
+
+        [HttpPost]
+        [Route("addAddress")]
+        public async Task<IActionResult> AddAddress([FromBody] Address address)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+
+                bool employeeExists = await _employeeService.Exists(address.EmployeeId);
+                if (!employeeExists)
+                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+
+                Address newAddress = await _addressService.Add(address);
+
+                await _employeeAddressService.Add(new EmployeeAddress(newAddress));
+
+                return StatusCode(StatusCodes.Status200OK, new { message = "Add" });
+            }
+            catch (Exception err)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
+            }
+        }
+
     }
 }

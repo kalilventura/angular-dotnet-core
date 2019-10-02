@@ -6,6 +6,16 @@ namespace CompanyAPI.Domain.Models
 {
     public class EmployeeAddress : Entity
     {
+        public EmployeeAddress()
+        {
+
+        }
+
+        public EmployeeAddress(Address newAddress)
+        {
+            Address = newAddress;
+        }
+
         public int EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
         

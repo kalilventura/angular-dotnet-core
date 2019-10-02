@@ -58,7 +58,9 @@ namespace CompanyAPI
 
             services.AddScoped<IEmployeeAddressService, EmployeeAddressService>();            
             services.AddScoped<IEmployeeAddressRepository, EmployeeAddressRepository>();
-            
+
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
 
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
