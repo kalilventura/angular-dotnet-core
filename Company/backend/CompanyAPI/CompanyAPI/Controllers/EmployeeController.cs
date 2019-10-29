@@ -1,9 +1,7 @@
-﻿using CompanyAPI.Database.Context;
-using CompanyAPI.Domain.Models;
+﻿using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

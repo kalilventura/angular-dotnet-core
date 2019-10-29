@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using CompanyAPI.Configuration;
 using CompanyAPI.Database.Context;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Implementation;
@@ -12,107 +13,100 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
-namespace CompanyAPI
-{
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
+namespace CompanyAPI {
+    public class Startup {
+        public Startup (IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices (IServiceCollection services) {
             //Inject AppSettings
-            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+            services.Configure<ApplicationSettings> (Configuration.GetSection ("ApplicationSettings"));
 
             // Database
             services
-                .AddDbContext<CompanyApiContext>(option =>
-                    option.UseSqlServer(Configuration["ConnectionStrings:CompanyContext"],
-                    m => m.MigrationsAssembly("CompanyAPI.Database")));
+                .AddDbContext<CompanyApiContext> (option =>
+                    option.UseSqlServer (Configuration["ConnectionStrings:CompanyContext"],
+                        m => m.MigrationsAssembly ("CompanyAPI.Database")));
 
             services
-                .AddDefaultIdentity<ApplicationUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<CompanyApiContext>();
+                .AddDefaultIdentity<ApplicationUser> ()
+                .AddRoles<IdentityRole> ()
+                .AddEntityFrameworkStores<CompanyApiContext> ();
 
             // DI
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
-
-            services.AddScoped<ICompanyService, CompanyService>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-
-            services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-
-            services.AddScoped<IEmployeeAddressService, EmployeeAddressService>();            
-            services.AddScoped<IEmployeeAddressRepository, EmployeeAddressRepository>();
-
-            services.AddScoped<IAddressService, AddressService>();
-            services.AddScoped<IAddressRepository, AddressRepository>();
-
-            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.RegisterRepositoryServices();
 
             //Jwt Authentication
-            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
-            services.AddAuthentication(x =>
-                {
+            var key = Encoding.UTF8.GetBytes (Configuration["ApplicationSettings:JWT_Secret"].ToString ());
+            services.AddAuthentication (x => {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(x =>
-                {
+                .AddJwtBearer (x => {
                     x.RequireHttpsMetadata = false;
                     x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
+                    x.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuerSigningKey = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        IssuerSigningKey = new SymmetricSecurityKey (key),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ClockSkew = TimeSpan.Zero
                     };
                 });
 
-            services
-                .AddMvcCore()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonFormatters()
-                .AddCors();
+            services.AddSwaggerGen (c => {
+                c.SwaggerDoc ("v1", new OpenApiInfo {
+                    Title = "Company API",
+                        Version = "v1",
+                        Description = "API using SQL Server and ASP.Net Core 3.0",
+                });
+            });
+
+            services.AddControllers ();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
+        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment ()) {
+                app.UseDeveloperExceptionPage ();
+            }
 
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            else
-                app.UseHsts();
+            app
+                .UseSwagger ()
+                .UseSwaggerUI (c => {
+                    c.SwaggerEndpoint ("/swagger/v1/swagger.json", "Company V1");
+                    c.RoutePrefix = string.Empty;
+                });
 
-            app.UseCors(builder =>
-               builder
-               .AllowAnyOrigin()
-               //.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
-               .AllowAnyHeader().AllowAnyMethod());
+            app
+                .UseHttpsRedirection ()
+                .UseRouting ()
+                .UseAuthorization ()
+                .UseCors (builder =>
+                    builder
+                    .AllowAnyOrigin ()
+                    //.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
+                    .AllowAnyHeader ()
+                    .AllowAnyMethod ()
+                );
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseEndpoints (endpoints => {
+                endpoints.MapControllers ();
+            });
         }
+
     }
 }

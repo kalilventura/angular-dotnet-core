@@ -4,16 +4,14 @@ using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Domain.ViewModel;
 using CompanyAPI.Repository.Interfaces;
-using CompanyAPI.Shared.Settings;
 using Microsoft.AspNetCore.Identity;
 
 namespace CompanyAPI.Repository.Implementation
 {
     public class AuthRepository : IAuthRepository
     {
-
           private readonly UserManager<ApplicationUser> _userManager;
-          private SignInManager<ApplicationUser> _signInManager;
+          private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthRepository(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
