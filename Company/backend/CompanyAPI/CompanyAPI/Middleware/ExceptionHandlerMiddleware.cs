@@ -1,4 +1,10 @@
-// You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+using CompanyAPI.DTO;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
+
 namespace CompanyAPI.Middleware
 {
     public class ExceptionHandlerMiddleware
@@ -14,13 +20,18 @@ namespace CompanyAPI.Middleware
             }
             catch (Exception ex)
             {
-                throw ex;
+                var result = new Result();
+                result.Messages.Add(ex.Message);
+                var jsonResponse = JsonConvert.SerializeObject(result);
+
+                httpContext.Response.Clear();
+                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                await httpContext.Response.WriteAsync(jsonResponse);
             }
         }
-
-        public static class ExceptionHandlerMiddlewareExtensions
-        {
-            public static IApplicationBuilder UseExceptionHandlerMiddleware(this IApplicationBuilder builder) => builder.UseMiddleware<ExceptionHandlerMiddleware>();
-        }
+    }
+    public static class ExceptionHandlerMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseExceptionHandlerMiddleware(this IApplicationBuilder builder) => builder.UseMiddleware<ExceptionHandlerMiddleware>();
     }
 }

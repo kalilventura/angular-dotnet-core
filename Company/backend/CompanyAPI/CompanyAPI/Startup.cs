@@ -1,15 +1,9 @@
-﻿using System;
-using System.Text;
-using CompanyAPI.Configuration;
+﻿using CompanyAPI.Configuration;
 using CompanyAPI.Database.Context;
 using CompanyAPI.Domain.Models;
-using CompanyAPI.Repository.Implementation;
-using CompanyAPI.Repository.Interfaces;
-using CompanyAPI.Services.Implementation;
-using CompanyAPI.Services.Interfaces;
-using CompanyAPI.Services.Services.Implementation;
+using CompanyAPI.Middleware;
 using CompanyAPI.Shared.Settings;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace CompanyAPI
@@ -52,26 +45,7 @@ namespace CompanyAPI
             services.RegisterRepositoryServices();
 
             //Jwt Authentication
-            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
+            JsonWebTokenConfiguration.RegisterJwt(services, Configuration);
 
             services.AddSwaggerGen(c =>
             {
@@ -83,7 +57,9 @@ namespace CompanyAPI
                 });
             });
 
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddFluentValidation();
 
         }
 
@@ -109,8 +85,7 @@ namespace CompanyAPI
                 .UseHttpsRedirection()
                 .UseRouting()
                 .UseAuthorization()
-                .UseCors(builder =>
-                   builder
+                .UseCors(builder => builder
                    .AllowAnyOrigin()
                    //.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
                    .AllowAnyHeader()
