@@ -11,7 +11,7 @@ namespace CompanyAPI.Repository.Implementation
     public class GenericRepository<T> : IGenericRepository<T> where T : Entity
     {
         protected readonly CompanyApiContext _context;
-        private DbSet<T> _dataset;
+        private readonly DbSet<T> _dataset;
 
         public GenericRepository(CompanyApiContext context)
         {
