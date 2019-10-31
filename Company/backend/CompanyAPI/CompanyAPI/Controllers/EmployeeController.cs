@@ -2,7 +2,6 @@
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,122 +28,64 @@ namespace CompanyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            try
-            {
-                var employees = await _employeeService.GetAll();
+            var employees = await _employeeService.GetAll();
 
-                return StatusCode(StatusCodes.Status200OK, new { employees = employees.ToList() });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { employees = employees.ToList() });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            try
-            {
-                bool employeeExists = await _employeeService.Exists(id);
-                if (!employeeExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+            bool employeeExists = await _employeeService.Exists(id);
+            if (!employeeExists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-                var employee = await _employeeService.GetById(id);
+            var employee = await _employeeService.GetById(id);
 
-                return StatusCode(StatusCodes.Status200OK, new { selectedEmployee = employee });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { selectedEmployee = employee });
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Employee employee)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            var result = await _employeeService.Add(employee);
 
-                var result = await _employeeService.Add(employee);
-
-                return StatusCode(StatusCodes.Status200OK, new { employee = result });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { employee = result });
         }
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] Employee employee)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            bool employeeExists = await _employeeService.Exists(employee.Id);
+            if (!employeeExists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-                bool employeeExists = await _employeeService.Exists(employee.Id);
-                if (!employeeExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+            var alteredEmployee = await _employeeService.Alter(employee);
 
-                var alteredEmployee = await _employeeService.Alter(employee);
-
-                return StatusCode(StatusCodes.Status200OK, new { employee = alteredEmployee });
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { employee = alteredEmployee });
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] Employee employee)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            _employeeService.Delete(employee);
 
-                _employeeService.Delete(employee);
-
-                return StatusCode(StatusCodes.Status204NoContent);
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status204NoContent);
         }
 
         [HttpPost]
         [Route("addAddress")]
         public async Task<IActionResult> AddAddress([FromBody] Address address)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            bool employeeExists = await _employeeService.Exists(address.EmployeeId);
+            if (!employeeExists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-                bool employeeExists = await _employeeService.Exists(address.EmployeeId);
-                if (!employeeExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+            Address newAddress = await _addressService.Add(address);
 
-                Address newAddress = await _addressService.Add(address);
+            await _employeeAddressService.Add(new EmployeeAddress(newAddress));
 
-                await _employeeAddressService.Add(new EmployeeAddress(newAddress));
-
-                return StatusCode(StatusCodes.Status200OK, new { message = "Add" });
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { message = "Add" });
         }
-
     }
 }

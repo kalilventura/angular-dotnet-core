@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -25,108 +23,56 @@ namespace CompanyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            try
-            {
-                var companies = await _companyService.GetAll();
+            var companies = await _companyService.GetAll();
 
-                return StatusCode(StatusCodes.Status200OK, new { companies = companies });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { companies = companies });
         }
 
         [HttpGet("{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Get(int id)
         {
-            try
-            {
-                if (!ModelState.IsValid) return BadRequest();
+            var company = await _companyService.GetById(id);
 
-                var company = await _companyService.GetById(id);
-
-                return StatusCode(StatusCodes.Status200OK, new { company = company });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { company = company });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Post(Company company)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status406NotAcceptable,
-                        new { message = ModelState.Values.SelectMany(e => e.Errors) });
+            if (await _companyService.Exists(company.Id))
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company Exists" });
 
-                if (await _companyService.Exists(company.Id))
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company Exists" });
+            var result = await _companyService.Add(company);
 
-                var result = await _companyService.Add(company);
-
-                return StatusCode(StatusCodes.Status201Created, new { company = result });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status201Created, new { company = result });
         }
 
         [HttpPut]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(Company company)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status406NotAcceptable,
-                        new { message = ModelState.Values.SelectMany(e => e.Errors) });
+            bool exists = await _companyService.Exists(company.Id);
+            if (!exists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
-                bool exists = await _companyService.Exists(company.Id);
-                if (!exists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
+            var result = await _companyService.Alter(company);
 
-                var result = await _companyService.Alter(company);
-
-                return StatusCode(StatusCodes.Status200OK, new { company = result });
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { company = result });
         }
 
         [HttpDelete]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Company company)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return StatusCode(StatusCodes.Status406NotAcceptable,
-                        new { message = ModelState.Values.SelectMany(e => e.Errors) });
+            bool exists = await _companyService.Exists(company.Id);
+            if (!exists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
-                bool exists = await _companyService.Exists(company.Id);
-                if (!exists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
+            _companyService.Delete(company);
 
-                _companyService.Delete(company);
-
-                return StatusCode(StatusCodes.Status204NoContent);
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status204NoContent);
         }
     }
 }

@@ -4,10 +4,8 @@ namespace CompanyAPI.Domain.Models
 {
     public class Employee : Entity
     {
-        public Employee()
-        {
+        public Employee() { }
 
-        }
         public Employee(string name, string document, string email)
         {
             Name = name;

@@ -40,7 +40,7 @@ namespace CompanyAPI.Domain.Models
         public int EmployeeId { get; set; }
         public virtual List<EmployeeAddress> Employee { get; set; }
 
-        public string fullAddress()
+        public string FullAddress()
         {
             return $"{Street}, {Number} - {City}/{State}";
         }

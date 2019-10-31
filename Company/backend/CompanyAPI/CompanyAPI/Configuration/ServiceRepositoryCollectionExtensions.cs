@@ -1,8 +1,12 @@
+using CompanyAPI.Domain.Models;
+using CompanyAPI.Domain.Validations;
+using CompanyAPI.Domain.ViewModel;
 using CompanyAPI.Repository.Implementation;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Implementation;
 using CompanyAPI.Services.Interfaces;
 using CompanyAPI.Services.Services.Implementation;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CompanyAPI.Configuration
@@ -39,6 +43,22 @@ namespace CompanyAPI.Configuration
             //Generic Repository and Service
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            return services;
+        }
+
+        /// <summary>
+        /// Validação dos Modelos do projeto
+        /// </summary>
+        /// <param name="services">Serviços da aplicação</param>
+        /// <returns></returns>
+        public static IServiceCollection RegisterValidators(this IServiceCollection services)
+        {
+            services.AddTransient<IValidator<Login>, LoginValidator>();
+            services.AddTransient<IValidator<User>, UserValidator>();
+            services.AddTransient<IValidator<Address>, AddressValidator>();
+            services.AddTransient<IValidator<Company>, CompanyValidator>();
+            services.AddTransient<IValidator<Employee>, EmployeeValidator>();
 
             return services;
         }

@@ -44,6 +44,9 @@ namespace CompanyAPI
             // DI
             services.RegisterRepositoryServices();
 
+            //Validators
+            services.RegisterValidators();
+
             //Jwt Authentication
             JsonWebTokenConfiguration.RegisterJwt(services, Configuration);
 

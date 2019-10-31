@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CompanyAPI.Domain.Models
+﻿namespace CompanyAPI.Domain.Models
 {
     public class Company : Entity
     {
@@ -12,14 +10,8 @@ namespace CompanyAPI.Domain.Models
             Document = document;
         }
 
-        [Required(ErrorMessage = "The field {0} is required", AllowEmptyStrings = false)]
-        [StringLength(100, ErrorMessage = "Invalid Company Name", MinimumLength = 6)]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        public string CompanyName { get;   set; }
+        public string CompanyName { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is required", AllowEmptyStrings = false)]
-        [StringLength(100, ErrorMessage = "Invalid Document", MinimumLength = 6)]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        public string Document { get;   set; }
+        public string Document { get; set; }
     }
 }

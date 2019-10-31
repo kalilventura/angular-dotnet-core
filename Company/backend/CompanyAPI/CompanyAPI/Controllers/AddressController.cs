@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -25,86 +22,45 @@ namespace CompanyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            try
-            {
-                var result = await _address.GetAll();
+            var result = await _address.GetAll();
 
-                return StatusCode(StatusCodes.Status200OK, new { address = result });
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { address = result });
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Address address)
         {
+            bool employeeExists = await _employee.Exists(address.EmployeeId);
+            if (!employeeExists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            var result = _address.Add(address);
 
-                bool employeeExists = await _employee.Exists(address.EmployeeId);
-                if (!employeeExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
-
-                var result = _address.Add(address);
-
-                return StatusCode(StatusCodes.Status200OK, new { address = result });
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { address = result });
         }
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] Address address)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            bool employeeExists = await _employee.Exists(address.EmployeeId);
+            if (!employeeExists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-                bool employeeExists = await _employee.Exists(address.EmployeeId);
-                if (!employeeExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+            var result = await _address.Add(address);
 
-                var result = await _address.Add(address);
-
-                return StatusCode(StatusCodes.Status200OK, new { address = result });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { address = result });
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] Address address)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+            bool employeeExists = await _employee.Exists(address.EmployeeId);
+            if (!employeeExists)
+                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-                bool employeeExists = await _employee.Exists(address.EmployeeId);
-                if (!employeeExists)
-                    return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+            _address.Delete(address);
 
-                _address.Delete(address);
-
-                return StatusCode(StatusCodes.Status200OK, new { message = "Address deleted successfully." });
-
-            }
-            catch (Exception err)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = err.Message });
-            }
+            return StatusCode(StatusCodes.Status200OK, new { message = "Address deleted successfully." });
         }
-
     }
 }

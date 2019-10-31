@@ -21,7 +21,6 @@ namespace CompanyAPI.Configuration
 
                     var result = new
                     {
-                        Code = StatusCodes.Status406NotAcceptable,
                         Message = "Validation Errors",
                         Errors = errors
                     };
