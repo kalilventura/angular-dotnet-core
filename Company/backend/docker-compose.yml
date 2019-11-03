@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+#Configuration Sql Server
+  ms-sql-server:
+    container_name: company.database
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment: 
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "6zY0KGaw"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    networks:
+      - company-network
+
+#Configuration Webapi
+  company.api:
+    container_name: company.api
+    image: company
+    build:
+      context: Company
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80:80"
+    networks:
+      - company-network
+    depends_on:
+      - "ms-sql-server"
+
+#Network for containers
+networks: 
+  company-network:
+    driver: bridge
