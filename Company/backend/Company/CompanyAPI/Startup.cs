@@ -72,6 +72,7 @@ namespace CompanyAPI
         {
             if (env.IsDevelopment())
             {
+                CompanyApiSeed.SeedAsync(app).Wait();
                 app.UseDeveloperExceptionPage();
             }
 

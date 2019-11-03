@@ -11,7 +11,7 @@ namespace CompanyAPI.Repository.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<IdentityResult> CreateUser(User user);
+        Task<IdentityResult> CreateUser(Register user);
         Task<bool> UserExists(string username);
         Task<bool> EmailExists(string email);
         Task<ApplicationUser> FindUserByUserName(string email);

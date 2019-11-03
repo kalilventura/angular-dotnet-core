@@ -9,56 +9,53 @@ using CompanyAPI.Services.Services.Implementation;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CompanyAPI.Configuration
-{
+namespace CompanyAPI.Configuration {
     /// <summary>
-    /// Classe criada para a configuração do DI
+    /// Classe criada para a configuraï¿½ï¿½o do DI
     /// </summary>
-    public static class ServiceRepositoryCollectionExtensions
-    {
+    public static class ServiceRepositoryCollectionExtensions {
         /// <summary>
-        /// Método criado para a inserção dos serviços e repositórios
+        /// Mï¿½todo criado para a inserï¿½ï¿½o dos serviï¿½os e repositï¿½rios
         /// </summary>
-        /// <param name="services">Serviços da aplicação</param>
+        /// <param name="services">Serviï¿½os da aplicaï¿½ï¿½o</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterRepositoryServices(this IServiceCollection services)
-        {
+        public static IServiceCollection RegisterRepositoryServices (this IServiceCollection services) {
 
             //Services and Repositories
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthService, AuthService> ();
+            services.AddScoped<IAuthRepository, AuthRepository> ();
 
-            services.AddScoped<ICompanyService, CompanyService>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ICompanyService, CompanyService> ();
+            services.AddScoped<ICompanyRepository, CompanyRepository> ();
 
-            services.AddScoped<IEmployeeService, EmployeeService>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEmployeeService, EmployeeService> ();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository> ();
 
-            services.AddScoped<IEmployeeAddressService, EmployeeAddressService>();
-            services.AddScoped<IEmployeeAddressRepository, EmployeeAddressRepository>();
+            services.AddScoped<IEmployeeAddressService, EmployeeAddressService> ();
+            services.AddScoped<IEmployeeAddressRepository, EmployeeAddressRepository> ();
 
-            services.AddScoped<IAddressService, AddressService>();
-            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAddressService, AddressService> ();
+            services.AddScoped<IAddressRepository, AddressRepository> ();
 
             //Generic Repository and Service
-            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped (typeof (IBaseService<>), typeof (BaseService<>));
+            services.AddScoped (typeof (IGenericRepository<>), typeof (GenericRepository<>));
 
             return services;
         }
 
         /// <summary>
-        /// Validação dos Modelos do projeto
+        /// Validaï¿½ï¿½o dos Modelos do projeto
         /// </summary>
-        /// <param name="services">Serviços da aplicação</param>
+        /// <param name="services">Serviï¿½os da aplicaï¿½ï¿½o</param>
         /// <returns></returns>
-        public static IServiceCollection RegisterValidators(this IServiceCollection services)
-        {
-            services.AddTransient<IValidator<Login>, LoginValidator>();
-            services.AddTransient<IValidator<User>, UserValidator>();
-            services.AddTransient<IValidator<Address>, AddressValidator>();
-            services.AddTransient<IValidator<Company>, CompanyValidator>();
-            services.AddTransient<IValidator<Employee>, EmployeeValidator>();
+        public static IServiceCollection RegisterValidators (this IServiceCollection services) {
+            services.AddTransient<IValidator<Login>, LoginValidator> ();
+            services.AddTransient<IValidator<User>, UserValidator> ();
+            services.AddTransient<IValidator<Address>, AddressValidator> ();
+            services.AddTransient<IValidator<Company>, CompanyValidator> ();
+            services.AddTransient<IValidator<Employee>, EmployeeValidator> ();
+            services.AddTransient<IValidator<Register>, RegisterValidator> ();
 
             return services;
         }

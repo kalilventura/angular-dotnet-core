@@ -20,7 +20,7 @@ namespace CompanyAPI.Repository.Implementation
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> CreateUser(User user)
+        public async Task<IdentityResult> CreateUser(Register user)
         {
             var applicationUser = new ApplicationUser()
             {

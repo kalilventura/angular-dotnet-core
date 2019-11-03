@@ -72,7 +72,7 @@ namespace CompanyAPI.Services.Implementation
             }
         }
 
-        public async Task<IdentityResult> Register(User user)
+        public async Task<IdentityResult> Register(Register user)
         {
             try
             {
