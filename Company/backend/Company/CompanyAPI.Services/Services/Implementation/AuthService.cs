@@ -1,4 +1,8 @@
-﻿using CompanyAPI.Domain.Models;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Threading.Tasks;
+using CompanyAPI.Domain.Models;
 using CompanyAPI.Domain.ViewModel;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Interfaces;
@@ -6,17 +10,13 @@ using CompanyAPI.Shared.Settings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompanyAPI.Services.Implementation
 {
     public class AuthService : IAuthService
     {
-          readonly IAuthRepository _authRepository;
-          readonly ApplicationSettings _appSettings;
+        readonly IAuthRepository _authRepository;
+        readonly ApplicationSettings _appSettings;
 
         public AuthService(IAuthRepository authRepository, IOptions<ApplicationSettings> settings)
         {
@@ -24,9 +24,9 @@ namespace CompanyAPI.Services.Implementation
             _appSettings = settings.Value;
         }
 
-        private async Task<string> GenerateToken(string userName)
+        private async Task<string> GenerateToken(string username)
         {
-            var user = await _authRepository.FindUserByUserName(userName);
+            var user = await _authRepository.FindUserByUserName(username);
 
             //var identityClaims = await _authRepository.GetUserClaims(user);
 
@@ -35,7 +35,7 @@ namespace CompanyAPI.Services.Implementation
             var securityKey = new SymmetricSecurityKey(key);
 
             var credentials = new SigningCredentials(securityKey,
-                            Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature);
+                Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -56,10 +56,15 @@ namespace CompanyAPI.Services.Implementation
         {
             try
             {
-                string token = await GenerateToken(user.UserName);
+                string token = await GenerateToken(user.Username);
+
+                var loginUser = await _authRepository.FindUserByUserName(user.Username);
 
                 return new User
                 {
+                    Email = loginUser.Email,
+                    UserName = loginUser.UserName,
+                    FullName = loginUser.FullName,
                     Employee = null,
                     Token = token,
                     Role = string.Empty

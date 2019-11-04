@@ -19,7 +19,7 @@ namespace CompanyAPI.Domain.Validations
                 .Length(6, 100)
                 .WithMessage("Password need between 6 and 100 characters.");
 
-            RuleFor(user => user.Username)
+            RuleFor(user => user.UserName)
                 .NotEmpty()
                 .WithMessage("Username is required.");
         }

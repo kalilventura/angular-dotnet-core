@@ -7,7 +7,7 @@ namespace CompanyAPI.Domain.Validations
     {
         public LoginValidator()
         {
-            RuleFor(u => u.UserName)
+            RuleFor(u => u.Username)
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Invalid Username");

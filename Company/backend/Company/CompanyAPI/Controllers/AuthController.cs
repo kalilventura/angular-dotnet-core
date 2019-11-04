@@ -74,7 +74,7 @@ namespace CompanyAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> Login(Login user)
         {
-            bool userExists = await _authService.UserExists(user.UserName);
+            bool userExists = await _authService.UserExists(user.Username);
 
             if (!userExists)
                 return StatusCode(StatusCodes.Status404NotFound, new { message = "Username not exists." });

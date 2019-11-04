@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 
 namespace CompanyAPI
 {
@@ -57,6 +58,14 @@ namespace CompanyAPI
                     Title = "Company API",
                     Version = "v1",
                     Description = "API using SQL Server and ASP.Net Core 3.0",
+                });
+                c.ResolveConflictingActions(x => x.First());
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "Json Web Token Authorization header using Bearer Scheme",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
                 });
             });
 

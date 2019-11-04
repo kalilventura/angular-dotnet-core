@@ -1,9 +1,10 @@
-﻿using CompanyAPI.Domain.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CompanyAPI.Controllers
 {
@@ -15,10 +16,8 @@ namespace CompanyAPI.Controllers
         private readonly IAddressService _addressService;
         private readonly IEmployeeAddressService _employeeAddressService;
 
-        public EmployeeController(
-            IEmployeeService employeeService,
-            IAddressService addressService,
-            IEmployeeAddressService employeeAddressService)
+        public EmployeeController(IEmployeeService employeeService, IAddressService addressService,
+                                  IEmployeeAddressService employeeAddressService)
         {
             _employeeService = employeeService;
             _addressService = addressService;
@@ -26,6 +25,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Get()
         {
             var employees = await _employeeService.GetAll();
@@ -34,6 +34,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Get(int id)
         {
             bool employeeExists = await _employeeService.Exists(id);
@@ -46,6 +47,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Post([FromBody] Employee employee)
         {
             var result = await _employeeService.Add(employee);
@@ -54,6 +56,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Put([FromBody] Employee employee)
         {
             bool employeeExists = await _employeeService.Exists(employee.Id);
@@ -66,6 +69,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Delete([FromBody] Employee employee)
         {
             _employeeService.Delete(employee);
@@ -74,6 +78,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize("Bearer")]
         [Route("addAddress")]
         public async Task<IActionResult> AddAddress([FromBody] Address address)
         {

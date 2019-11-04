@@ -60,7 +60,7 @@ namespace CompanyAPI.Repository.Implementation
         public async Task<SignInResult> SignIn(Login user)
         {
             return await _signInManager
-                .PasswordSignInAsync(user.UserName, user.Password, isPersistent: false, lockoutOnFailure: true);
+                .PasswordSignInAsync(user.Username, user.Password, isPersistent: false, lockoutOnFailure: true);
         }
 
         public async Task<bool> UserExists(string username)
