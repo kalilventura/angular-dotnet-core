@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Get()
         {
             var result = await _address.GetAll();
@@ -28,6 +30,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Post([FromBody] Address address)
         {
             bool employeeExists = await _employee.Exists(address.EmployeeId);
@@ -40,6 +43,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Put([FromBody] Address address)
         {
             bool employeeExists = await _employee.Exists(address.EmployeeId);
@@ -52,6 +56,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Delete([FromBody] Address address)
         {
             bool employeeExists = await _employee.Exists(address.EmployeeId);

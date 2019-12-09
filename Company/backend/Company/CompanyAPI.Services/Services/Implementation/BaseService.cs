@@ -8,7 +8,7 @@ namespace CompanyAPI.Services.Implementation
 {
     public class BaseService<T> : IBaseService<T> where T : Entity
     {
-        private readonly IGenericRepository<T> _repository;
+        protected readonly IGenericRepository<T> _repository;
 
         public BaseService(IGenericRepository<T> repository)
         {
@@ -42,7 +42,7 @@ namespace CompanyAPI.Services.Implementation
 
         public async Task<T> GetById(int id)
         {
-            return await _repository.GetById(id);
+            return await _repository.FindOne(x => x.Id == id);
         }
     }
 }

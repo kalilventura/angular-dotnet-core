@@ -46,6 +46,16 @@ namespace CompanyAPI.Controllers
             return StatusCode(StatusCodes.Status200OK, new { selectedEmployee = employee });
         }
 
+        [HttpGet]
+        [Route("{name: string}")]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> Get(string name)
+        {
+            var employees = await _employeeService.FindByName(name);
+
+            return StatusCode(StatusCodes.Status200OK, new { selectedEmployees = employees });
+        }
+
         [HttpPost]
         [Authorize("Bearer")]
         public async Task<IActionResult> Post([FromBody] Employee employee)

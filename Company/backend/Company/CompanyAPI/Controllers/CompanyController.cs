@@ -21,6 +21,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Get()
         {
             var companies = await _companyService.GetAll();
@@ -28,8 +29,9 @@ namespace CompanyAPI.Controllers
             return StatusCode(StatusCodes.Status200OK, new { companies = companies });
         }
 
-        [HttpGet("{id}")]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
+        [Route("{id: int}")]
+        [Authorize("Bearer")]
         public async Task<IActionResult> Get(int id)
         {
             var company = await _companyService.GetById(id);
@@ -37,9 +39,19 @@ namespace CompanyAPI.Controllers
             return StatusCode(StatusCodes.Status200OK, new { company = company });
         }
 
+        [HttpGet]
+        [Route("{companyName: string}")]
+        [Authorize("Bearer")]
+        public async Task<IActionResult> Get(string companyName)
+        {
+            var companies = await _companyService.GetByCompanyName(companyName);
+
+            return StatusCode(StatusCodes.Status200OK, new { company = companies });
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Post(Company company)
+        [Authorize("Bearer")]
+        public async Task<IActionResult> Post([FromBody] Company company)
         {
             if (await _companyService.Exists(company.Id))
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company Exists" });
@@ -50,8 +62,8 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpPut]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Put(Company company)
+        [Authorize("Bearer")]
+        public async Task<IActionResult> Put([FromBody] Company company)
         {
             bool exists = await _companyService.Exists(company.Id);
             if (!exists)
@@ -63,8 +75,8 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpDelete]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Company company)
+        [Authorize("Bearer")]
+        public async Task<IActionResult> Delete([FromBody] Company company)
         {
             bool exists = await _companyService.Exists(company.Id);
             if (!exists)
