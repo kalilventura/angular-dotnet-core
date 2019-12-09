@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CompanyAPI.Repository.Implementation
@@ -86,6 +87,21 @@ namespace CompanyAPI.Repository.Implementation
             {
                 throw err;
             }
+        }
+
+        public async Task<IList<T>> Find(Expression<Func<T, bool>> query)
+        {
+            return await _context
+                            .Set<T>()
+                            .Where(query)
+                            .ToListAsync();
+        }
+
+        public async Task<T> FindOne(Expression<Func<T, bool>> query)
+        {
+            return await _context
+                            .Set<T>()
+                            .FirstAsync(query);
         }
     }
 }

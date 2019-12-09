@@ -1,6 +1,7 @@
 ﻿using CompanyAPI.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CompanyAPI.Repository.Interfaces
@@ -13,5 +14,7 @@ namespace CompanyAPI.Repository.Interfaces
         Task<T> GetById(int? id);
         Task<bool> Exists(int? id);
         Task<IList<T>> FindAll();
+        Task<IList<T>> Find(Expression<Func<T, bool>> query);
+        Task<T> FindOne(Expression<Func<T, bool>> query);
     }
 }

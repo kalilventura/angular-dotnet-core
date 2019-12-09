@@ -7,13 +7,13 @@ namespace CompanyAPI.Database.Context
 {
     public class CompanyApiSeed
     {
-        public static async Task SeedAsync (IApplicationBuilder app)
+        public static async Task SeedAsync(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {    
+            {
                 var scopeServiceProvider = serviceScope.ServiceProvider;
-                var context = serviceScope.ServiceProvider.GetService<CompanyApiContext> ();
-                context.Database.Migrate();   
+                var context = serviceScope.ServiceProvider.GetService<CompanyApiContext>();
+                context.Database.Migrate();
             }
         }
     }

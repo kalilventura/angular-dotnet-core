@@ -30,7 +30,7 @@ namespace CompanyAPI.Tests.RepositoryTests
 
             await moqRepository.AddAsync(employee);
 
-            var resultado = moqRepository.Find(x => x.Document.Equals(employee.Document));
+            var resultado = await moqRepository.Find(x => x.Document.Equals(employee.Document));
 
             Assert.NotNull(resultado);
             Assert.NotEmpty(resultado);
@@ -57,7 +57,7 @@ namespace CompanyAPI.Tests.RepositoryTests
 
             //When
             await moqRepository.AddManyEmployees(employees);
-            var result = moqRepository.FindByName("Fulano");
+            var result = await moqRepository.FindOne(x => x.Name == "Fulano");
 
             //Then
             Assert.NotNull(result);

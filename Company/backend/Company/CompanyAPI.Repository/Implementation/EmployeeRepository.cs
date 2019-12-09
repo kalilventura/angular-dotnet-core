@@ -17,15 +17,5 @@ namespace CompanyAPI.Repository.Implementation
         {
             await _context.BulkInsertAsync(employees);
         }
-
-        public IList<Employee> Find(Func<Employee, bool> filter)
-        {
-            return _context.Employees.Where(filter).ToList();
-        }
-
-        public Employee FindByName(string name)
-        {
-            return _context.Employees.FirstOrDefault(x => x.Name.Equals(name));
-        }
     }
 }
