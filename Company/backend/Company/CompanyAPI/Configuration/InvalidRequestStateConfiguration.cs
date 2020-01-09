@@ -17,7 +17,10 @@ namespace CompanyAPI.Configuration
             {
                 options.InvalidModelStateResponseFactory = (context) =>
                 {
-                    var errors = context.ModelState.Values.SelectMany(x => x.Errors.Select(e => e.ErrorMessage)).ToList();
+                    var errors = context.ModelState
+                                        .Values
+                                        .SelectMany(x => x.Errors.Select(e => e.ErrorMessage))
+                                        .ToList();
 
                     var result = new
                     {
