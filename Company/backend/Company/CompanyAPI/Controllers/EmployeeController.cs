@@ -13,19 +13,15 @@ namespace CompanyAPI.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IAddressService _addressService;
-        private readonly IEmployeeAddressService _employeeAddressService;
 
-        public EmployeeController(IEmployeeService employeeService, IAddressService addressService,
-                                  IEmployeeAddressService employeeAddressService)
+        public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
-            _addressService = addressService;
-            _employeeAddressService = employeeAddressService;
         }
 
         [HttpGet]
         [Authorize("Bearer")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Get()
         {
             var employees = await _employeeService.GetAll();
@@ -58,6 +54,7 @@ namespace CompanyAPI.Controllers
 
         [HttpPost]
         [Authorize("Bearer")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Employee employee)
         {
             var result = await _employeeService.Add(employee);
@@ -80,27 +77,28 @@ namespace CompanyAPI.Controllers
 
         [HttpDelete]
         [Authorize("Bearer")]
-        public async Task<IActionResult> Delete([FromBody] Employee employee)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Delete([FromBody] Employee employee)
         {
             _employeeService.Delete(employee);
 
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        [HttpPost]
-        [Authorize("Bearer")]
-        [Route("addAddress")]
-        public async Task<IActionResult> AddAddress([FromBody] Address address)
-        {
-            bool employeeExists = await _employeeService.Exists(address.EmployeeId);
-            if (!employeeExists)
-                return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
+        //[HttpPost]
+        //[Authorize("Bearer")]
+        //[Route("addAddress")]
+        //public async Task<IActionResult> AddAddress([FromBody] Address address)
+        //{
+        //    bool employeeExists = await _employeeService.Exists(address.EmployeeId);
+        //    if (!employeeExists)
+        //        return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-            Address newAddress = await _addressService.Add(address);
+        //    Address newAddress = await _addressService.Add(address);
 
-            await _employeeAddressService.Add(new EmployeeAddress(newAddress));
+        //    await _employeeAddressService.Add(new EmployeeAddress(newAddress));
 
-            return StatusCode(StatusCodes.Status200OK, new { message = "Add" });
-        }
+        //    return StatusCode(StatusCodes.Status200OK, new { message = "Add" });
+        //}
     }
 }

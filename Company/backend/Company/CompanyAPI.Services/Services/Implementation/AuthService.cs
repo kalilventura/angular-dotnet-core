@@ -18,7 +18,8 @@ namespace CompanyAPI.Services.Implementation
         readonly IAuthRepository _authRepository;
         readonly ApplicationSettings _appSettings;
 
-        public AuthService(IAuthRepository authRepository, IOptions<ApplicationSettings> settings)
+        public AuthService(IAuthRepository authRepository,
+                           IOptions<ApplicationSettings> settings)
         {
             _authRepository = authRepository;
             _appSettings = settings.Value;

@@ -26,7 +26,7 @@ namespace CompanyAPI.Controllers
         {
             var companies = await _companyService.GetAll();
 
-            return StatusCode(StatusCodes.Status200OK, new { companies = companies });
+            return StatusCode(StatusCodes.Status200OK, new { companies });
         }
 
         [HttpGet]
@@ -36,7 +36,7 @@ namespace CompanyAPI.Controllers
         {
             var company = await _companyService.GetById(id);
 
-            return StatusCode(StatusCodes.Status200OK, new { company = company });
+            return StatusCode(StatusCodes.Status200OK, new { company });
         }
 
         [HttpGet]
@@ -46,11 +46,13 @@ namespace CompanyAPI.Controllers
         {
             var companies = await _companyService.GetByCompanyName(companyName);
 
-            return StatusCode(StatusCodes.Status200OK, new { company = companies });
+            return StatusCode(StatusCodes.Status200OK, new { companies });
         }
 
         [HttpPost]
         [Authorize("Bearer")]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Company company)
         {
             if (await _companyService.Exists(company.Id))
@@ -63,19 +65,21 @@ namespace CompanyAPI.Controllers
 
         [HttpPut]
         [Authorize("Bearer")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Company company)
         {
             bool exists = await _companyService.Exists(company.Id);
             if (!exists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
-            var result = await _companyService.Alter(company);
+            var alteredCompany = await _companyService.Alter(company);
 
-            return StatusCode(StatusCodes.Status200OK, new { company = result });
+            return StatusCode(StatusCodes.Status200OK, new { company = alteredCompany });
         }
 
         [HttpDelete]
         [Authorize("Bearer")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete([FromBody] Company company)
         {
             bool exists = await _companyService.Exists(company.Id);

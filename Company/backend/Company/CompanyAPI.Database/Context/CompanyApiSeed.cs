@@ -1,7 +1,7 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace CompanyAPI.Database.Context
 {

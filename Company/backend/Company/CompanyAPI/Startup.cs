@@ -129,10 +129,9 @@ namespace CompanyAPI
                     c.RoutePrefix = string.Empty;
                 });
 
-            app
-                .UseHttpsRedirection()
-                .UseRouting()
-                .UseAuthorization();
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
 
             app.UseCors(builder =>
                     builder

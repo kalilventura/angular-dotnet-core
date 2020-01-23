@@ -13,7 +13,8 @@ namespace CompanyAPI.Middleware
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlerMiddleware> _logger;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
+        public ExceptionHandlerMiddleware(RequestDelegate next,
+                                          ILogger<ExceptionHandlerMiddleware> logger)
         {
             _next = next;
             _logger = logger;
@@ -39,6 +40,7 @@ namespace CompanyAPI.Middleware
             }
         }
     }
+
     public static class ExceptionHandlerMiddlewareExtensions
     {
         public static IApplicationBuilder UseExceptionHandlerMiddleware(this IApplicationBuilder builder) => builder.UseMiddleware<ExceptionHandlerMiddleware>();

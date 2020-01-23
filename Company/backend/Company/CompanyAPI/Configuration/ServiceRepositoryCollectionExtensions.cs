@@ -34,8 +34,8 @@ namespace CompanyAPI.Configuration
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
-            services.AddScoped<IEmployeeAddressService, EmployeeAddressService>();
-            services.AddScoped<IEmployeeAddressRepository, EmployeeAddressRepository>();
+            //services.AddScoped<IEmployeeAddressService, EmployeeAddressService>();
+            //services.AddScoped<IEmployeeAddressRepository, EmployeeAddressRepository>();
 
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IAddressRepository, AddressRepository>();

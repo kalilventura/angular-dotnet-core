@@ -22,10 +22,10 @@ namespace CompanyAPI.Domain.Validations
                 .NotEmpty()
                 .WithMessage("Invalid District");
 
-            RuleFor(x => x.Employee)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Invalid Employee");
+            //RuleFor(x => x.Employee)
+            //    .NotNull()
+            //    .NotEmpty()
+            //    .WithMessage("Invalid Employee");
 
             RuleFor(x => x.EmployeeId)
                 .NotNull()

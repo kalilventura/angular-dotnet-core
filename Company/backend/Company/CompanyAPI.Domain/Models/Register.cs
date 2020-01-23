@@ -1,5 +1,6 @@
-namespace CompanyAPI.Domain.Models {
-    public class Register 
+namespace CompanyAPI.Domain.Models
+{
+    public class Register
     {
         public string Password { get; set; }
 

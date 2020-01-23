@@ -13,7 +13,7 @@ namespace CompanyAPI.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        readonly IAuthService _authService;
+        private readonly IAuthService _authService;
 
         public AuthController(IAuthService authService)
         {

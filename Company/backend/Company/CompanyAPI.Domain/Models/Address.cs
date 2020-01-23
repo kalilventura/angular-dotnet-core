@@ -1,5 +1,4 @@
 ﻿using CompanyAPI.Domain.Enum;
-using System.Collections.Generic;
 
 namespace CompanyAPI.Domain.Models
 {
@@ -38,7 +37,7 @@ namespace CompanyAPI.Domain.Models
         public string ZipCode { get; set; }
         public EAddressType Type { get; set; }
         public int EmployeeId { get; set; }
-        public virtual List<EmployeeAddress> Employee { get; set; }
+        //public virtual List<EmployeeAddress> Employee { get; set; }
 
         public string FullAddress()
         {

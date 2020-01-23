@@ -16,6 +16,6 @@ namespace CompanyAPI.Domain.Models
         public string Name { get; set; }
         public string Document { get; set; }
         public string Email { get; set; }
-        public virtual List<EmployeeAddress> Addresses { get; set; }
+        public virtual List<Address> Addresses { get; set; }
     }
 }

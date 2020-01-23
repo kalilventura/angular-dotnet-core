@@ -14,7 +14,7 @@ namespace CompanyAPI.Repository.Implementation
           private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthRepository(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+                              SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,7 +32,7 @@ namespace CompanyAPI.Repository.Implementation
             try
             {
                 var result = await _userManager.CreateAsync(applicationUser, user.Password);
-                // await _userManager.AddToRoleAsync(applicationUser, user.Role);
+                await _userManager.AddToRoleAsync(applicationUser, "Employee");
                 return result;
             }
             catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
+using CompanyAPI.DTO;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,20 +15,21 @@ namespace CompanyAPI.Controllers
         private readonly IAddressService _address;
         private readonly IEmployeeService _employee;
 
-        public AddressController(IAddressService address, IEmployeeService employee)
+        public AddressController(IAddressService address,
+                                 IEmployeeService employee)
         {
             _address = address;
             _employee = employee;
         }
 
-        [HttpGet]
-        [Authorize("Bearer")]
-        public async Task<IActionResult> Get()
-        {
-            var result = await _address.GetAll();
+        //[HttpGet]
+        //[Authorize("Bearer")]
+        //public async Task<IActionResult> Get()
+        //{
+        //    var result = await _address.GetAll();
 
-            return StatusCode(StatusCodes.Status200OK, new { address = result });
-        }
+        //    return StatusCode(StatusCodes.Status200OK, new { address = result });
+        //}
 
         [HttpPost]
         [Authorize("Bearer")]
@@ -57,13 +59,17 @@ namespace CompanyAPI.Controllers
 
         [HttpDelete]
         [Authorize("Bearer")]
-        public async Task<IActionResult> Delete([FromBody] Address address)
+        public async Task<IActionResult> Delete([FromBody] DeleteAddress address)
         {
             bool employeeExists = await _employee.Exists(address.EmployeeId);
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-            _address.Delete(address);
+            _address.Delete(new Address
+            {
+                EmployeeId = address.EmployeeId,
+                Id = address.AddressId
+            });
 
             return StatusCode(StatusCodes.Status200OK, new { message = "Address deleted successfully." });
         }
