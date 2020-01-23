@@ -16,10 +16,6 @@
   z-index: 1;
 }
 
-.hidden {
-  display: none;
-}
-
 .menu-spacer {
   flex: 1 1 auto;
 }
@@ -30,8 +26,3 @@ mat-toolbar a {
   color: white;
   text-decoration: none;
 }
-// @media (min-width: 768px) {
-//   .sidenav {
-//     display: none;
-//   }
-// }

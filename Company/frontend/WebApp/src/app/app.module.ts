@@ -12,11 +12,21 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
+import { AccountComponent } from './pages/account/account.component';
+import { CompanyComponent } from './pages/company/company.component';
+import { LoginComponent } from './auth/login/login.component';
+import { ExitComponent } from './auth/exit/exit.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    AccountComponent,
+    CompanyComponent,
+    LoginComponent,
+    ExitComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
