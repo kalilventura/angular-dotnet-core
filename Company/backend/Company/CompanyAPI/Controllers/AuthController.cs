@@ -30,7 +30,7 @@ namespace CompanyAPI.Controllers
         /// <response code="500">Erro interno</response>
         [HttpPost]
         [AllowAnonymous]
-        [Route("Register")]
+        [Route("register")]
         [Produces("application/json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(406)]
@@ -66,7 +66,7 @@ namespace CompanyAPI.Controllers
         /// <response code="500">Erro interno</response>
         [HttpPost]
         [AllowAnonymous]
-        [Route("Login")]
+        [Route("login")]
         [Produces("application/json")]
         [ProducesResponseType(202)]
         [ProducesResponseType(401)]
@@ -88,6 +88,11 @@ namespace CompanyAPI.Controllers
 
             return StatusCode(StatusCodes.Status202Accepted, new { login });
 
+        }
+
+        public async Task<IActionResult> CheckToken(Login user)
+        {
+            return StatusCode(StatusCodes.Status200OK);
         }
     }
 }

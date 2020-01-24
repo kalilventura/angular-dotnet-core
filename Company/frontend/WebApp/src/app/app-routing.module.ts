@@ -4,16 +4,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from '../app/pages/home/home.component';
 import { CompanyComponent } from '../app/pages/company/company.component';
-import { LoginComponent } from '../app/auth/login/login.component';
-import { ExitComponent } from '../app/auth/exit/exit.component';
 import { AccountComponent } from '../app/pages/account/account.component';
+import { AuthGuard } from './auth/auth.guard.service';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'company', component: CompanyComponent },
-  { path: 'account', component: AccountComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'logout', component: ExitComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'company', component: CompanyComponent, canActivate: [AuthGuard] },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
