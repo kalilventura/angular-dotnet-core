@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     MatButtonModule,
     MatIconModule,
     FlexLayoutModule,
+    MatTabsModule,
     AuthModule.forRoot()
   ],
   providers: [
