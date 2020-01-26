@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService {
     private subjUser$: BehaviorSubject<User> = new BehaviorSubject(null);
-    private subjLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    private subjLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private readonly url: string = `${environment.api_route}/auth`;
 
     constructor(private http: HttpClient) { }

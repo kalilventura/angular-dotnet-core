@@ -2,13 +2,28 @@
   <mat-toolbar-row>
     <a routerLink="">Company</a>
     <span class="menu-spacer"></span>
-    <div>
-      <a mat-button routerLink="/account" routerLinkActive="selected">My Account</a>
+    <ng-container *ngIf="!(authenticated$ | async)">
+      <div>
+        <a mat-button routerLink="/account" routerLinkActive="selected">Login</a>
+        <a mat-button routerLink="/account" routerLinkActive="selected">Register</a>
+        <!-- <a mat-button routerLink="/account" routerLinkActive="selected">My Account</a>
+        <a mat-button routerLink="/company" routerLinkActive="selected">Your Company</a>
+        <a mat-button routerLink="/logout">Exit</a> -->
+      </div>
+    </ng-container>
+    <ng-container *ngIf="(authenticated$ | async) && (user$ | async)">
+      <a mat-button routerLink="/account" routerLinkActive="selected">
+        <mat-icon>account_circle</mat-icon>My Account
+      </a>
       <a mat-button routerLink="/company" routerLinkActive="selected">Your Company</a>
-      <a mat-button routerLink="/logout">Exit</a>
-    </div>
+      <a mat-button routerLink="/logout">
+        <mat-icon>exit_to_app</mat-icon>Exit
+      </a>
+    </ng-container>
   </mat-toolbar-row>
   <!-- <mat-toolbar-row>
     <span style="font-size: 12px;">A simple project to manage your customerss</span>
   </mat-toolbar-row> -->
 </mat-toolbar>
+
+<router-outlet></router-outlet>
