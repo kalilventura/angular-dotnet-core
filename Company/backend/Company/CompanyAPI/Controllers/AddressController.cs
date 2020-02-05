@@ -22,20 +22,11 @@ namespace CompanyAPI.Controllers
             _employee = employee;
         }
 
-        //[HttpGet]
-        //[Authorize("Bearer")]
-        //public async Task<IActionResult> Get()
-        //{
-        //    var result = await _address.GetAll();
-
-        //    return StatusCode(StatusCodes.Status200OK, new { address = result });
-        //}
-
         [HttpPost]
         [Authorize("Bearer")]
         public async Task<IActionResult> Post([FromBody] Address address)
         {
-            bool employeeExists = await _employee.Exists(address.EmployeeId);
+            bool employeeExists = await _employee.Exists(x => x.Id == address.EmployeeId);
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
@@ -48,7 +39,7 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Put([FromBody] Address address)
         {
-            bool employeeExists = await _employee.Exists(address.EmployeeId);
+            bool employeeExists = await _employee.Exists(x => x.Id == address.EmployeeId);
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
@@ -61,7 +52,7 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Delete([FromBody] DeleteAddress address)
         {
-            bool employeeExists = await _employee.Exists(address.EmployeeId);
+            bool employeeExists = await _employee.Exists(x => x.Id == address.EmployeeId);
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 

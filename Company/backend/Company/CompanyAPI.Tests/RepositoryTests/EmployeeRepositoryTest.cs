@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CompanyAPI.Database.Context;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Implementation;
-using CompanyAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
@@ -21,12 +18,7 @@ namespace CompanyAPI.Tests.RepositoryTests
         {
             var employee = new Employee("Teste", "Document", "email@email.com");
 
-            var options = new DbContextOptionsBuilder<CompanyApiContext>()
-                                    .UseInMemoryDatabase("CompanyDb")
-                                    .Options;
-
-            var moqContext = new Mock<CompanyApiContext>(options);
-            var moqRepository = new EmployeeRepository(moqContext.Object);
+            var moqRepository = ReturnMoqEmployeeRepository();
 
             await moqRepository.AddAsync(employee);
 
@@ -42,26 +34,55 @@ namespace CompanyAPI.Tests.RepositoryTests
             //Given
             var employees = new List<Employee>
             {
-                new Employee("Kalil", "Document", "kalil@gmail.com"),
                 new Employee("Fulano", "Document", "fulano@gmail.com"),
-                new Employee("Ciclano", "Document", "ciclano@gmail.com"),
-                new Employee("Beltrano", "Document", "beltrano@gmail.com")
+                new Employee("Ciclano", "Document", "ciclano@gmail.com")
             };
 
-            var options = new DbContextOptionsBuilder<CompanyApiContext>()
-                                    .UseInMemoryDatabase("CompanyDb")
-                                    .Options;
+            var moqRepository = ReturnMoqEmployeeRepository();
 
-            var moqContext = new Mock<CompanyApiContext>(options);
-            var moqRepository = new EmployeeRepository(moqContext.Object);
+            // When
+            foreach (var employee in employees)
+                await moqRepository.AddAsync(employee);
 
-            //When
-            await moqRepository.AddManyEmployees(employees);
             var result = await moqRepository.FindOne(x => x.Name == "Fulano");
 
             //Then
             Assert.NotNull(result);
             Assert.Contains("Fulano", result.Name);
+
+        }
+
+        [Fact]
+        public async Task GetEmployeeById()
+        {
+            // Given
+            var employee = new Employee
+            {
+                Id = 10,
+                Name = "Fulano",
+                Document = "Document",
+                Email = "fulano@gmail.com"
+            };
+
+            var moqRepository = ReturnMoqEmployeeRepository();
+
+            // When
+            await moqRepository.AddAsync(employee);
+
+            var result = moqRepository.FindOne(x => x.Id == 10);
+
+            // Then
+            Assert.NotNull(result);
+        }
+
+        private EmployeeRepository ReturnMoqEmployeeRepository()
+        {
+            var options = new DbContextOptionsBuilder<CompanyApiContext>()
+                                .UseInMemoryDatabase("CompanyDb").Options;
+            var context = new CompanyApiContext(options);
+            var moqRepository = new EmployeeRepository(context);
+
+            return moqRepository;
         }
     }
 }

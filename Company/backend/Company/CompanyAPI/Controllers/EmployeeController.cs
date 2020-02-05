@@ -33,11 +33,11 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(int id)
         {
-            bool employeeExists = await _employeeService.Exists(id);
+            bool employeeExists = await _employeeService.Exists(x => x.Id == id);
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
-            var employee = await _employeeService.GetById(id);
+            var employee = await _employeeService.FindOne(x => x.Id == id);
 
             return StatusCode(StatusCodes.Status200OK, new { selectedEmployee = employee });
         }
@@ -47,7 +47,7 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(string name)
         {
-            var employees = await _employeeService.FindByName(name);
+            var employees = await _employeeService.FindOne(x => x.Name == name);
 
             return StatusCode(StatusCodes.Status200OK, new { selectedEmployees = employees });
         }
@@ -66,7 +66,7 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Put([FromBody] Employee employee)
         {
-            bool employeeExists = await _employeeService.Exists(employee.Id);
+            bool employeeExists = await _employeeService.Exists(x => x.Id == employee.Id);
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
@@ -85,20 +85,5 @@ namespace CompanyAPI.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        //[HttpPost]
-        //[Authorize("Bearer")]
-        //[Route("addAddress")]
-        //public async Task<IActionResult> AddAddress([FromBody] Address address)
-        //{
-        //    bool employeeExists = await _employeeService.Exists(address.EmployeeId);
-        //    if (!employeeExists)
-        //        return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
-
-        //    Address newAddress = await _addressService.Add(address);
-
-        //    await _employeeAddressService.Add(new EmployeeAddress(newAddress));
-
-        //    return StatusCode(StatusCodes.Status200OK, new { message = "Add" });
-        //}
     }
 }

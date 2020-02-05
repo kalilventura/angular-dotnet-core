@@ -1,5 +1,7 @@
 ﻿using CompanyAPI.Domain.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CompanyAPI.Services.Interfaces
@@ -10,7 +12,8 @@ namespace CompanyAPI.Services.Interfaces
         void Delete(T entity);
         Task<T> Alter(T entity);
         Task<IList<T>> GetAll();
-        Task<T> GetById(int id);
-        Task<bool> Exists(int? id);
+        Task<bool> Exists(Expression<Func<T, bool>> query);
+        Task<IList<T>> Find(Expression<Func<T, bool>> query);
+        Task<T> FindOne(Expression<Func<T, bool>> query);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Interfaces;
 using CompanyAPI.Services.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CompanyAPI.Services.Implementation
@@ -30,9 +32,19 @@ namespace CompanyAPI.Services.Implementation
             _repository.DeleteAsync(entity);
         }
 
-        public async Task<bool> Exists(int? id)
+        public async Task<bool> Exists(Expression<Func<T, bool>> query)
         {
-            return await _repository.Exists(id);
+            return await _repository.Exists(query);
+        }
+
+        public async Task<IList<T>> Find(Expression<Func<T, bool>> query)
+        {
+            return await _repository.Find(query);
+        }
+
+        public async Task<T> FindOne(Expression<Func<T, bool>> query)
+        {
+            return await _repository.FindOne(query);
         }
 
         public async Task<IList<T>> GetAll()
@@ -40,9 +52,5 @@ namespace CompanyAPI.Services.Implementation
             return await _repository.FindAll();
         }
 
-        public async Task<T> GetById(int id)
-        {
-            return await _repository.FindOne(x => x.Id == id);
-        }
     }
 }

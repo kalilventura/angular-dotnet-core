@@ -48,19 +48,16 @@ namespace CompanyAPI.Repository.Implementation
             }
         }
 
-        public async Task<bool> Exists(int? id)
+        public async Task<bool> Exists(Expression<Func<T, bool>> query)
         {
-            return await _dataset.AnyAsync(b => b.Id.Equals(id));
+            return await _context
+                            .Set<T>()
+                            .AnyAsync(query);
         }
 
         public async Task<IList<T>> FindAll()
         {
             return await _dataset.ToListAsync();
-        }
-
-        public async Task<T> GetById(int? id)
-        {
-            return await _dataset.FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
         private async Task SaveChangesAsync()

@@ -11,9 +11,8 @@ namespace CompanyAPI.Repository.Interfaces
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(T entity);
         void DeleteAsync(T entity);
-        Task<T> GetById(int? id);
-        Task<bool> Exists(int? id);
         Task<IList<T>> FindAll();
+        Task<bool> Exists(Expression<Func<T, bool>> query);        
         Task<IList<T>> Find(Expression<Func<T, bool>> query);
         Task<T> FindOne(Expression<Func<T, bool>> query);
     }
