@@ -50,14 +50,28 @@ namespace CompanyAPI.Repository.Implementation
 
         public async Task<bool> Exists(Expression<Func<T, bool>> query)
         {
-            return await _context
-                            .Set<T>()
-                            .AnyAsync(query);
+            try
+            {
+                return await _context
+                                    .Set<T>()
+                                    .AnyAsync(query);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<IList<T>> FindAll()
         {
-            return await _dataset.ToListAsync();
+            try
+            {
+                return await _dataset.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private async Task SaveChangesAsync()
@@ -88,17 +102,31 @@ namespace CompanyAPI.Repository.Implementation
 
         public async Task<IList<T>> Find(Expression<Func<T, bool>> query)
         {
-            return await _context
-                            .Set<T>()
-                            .Where(query)
-                            .ToListAsync();
+            try
+            {
+                return await _context
+                                    .Set<T>()
+                                    .Where(query)
+                                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<T> FindOne(Expression<Func<T, bool>> query)
         {
-            return await _context
-                            .Set<T>()
-                            .FirstAsync(query);
+            try
+            {
+                return await _context
+                                    .Set<T>()
+                                    .FirstAsync(query);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
