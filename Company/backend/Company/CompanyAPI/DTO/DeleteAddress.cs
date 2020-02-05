@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CompanyAPI.DTO
+﻿namespace CompanyAPI.DTO
 {
     public class DeleteAddress
     {
