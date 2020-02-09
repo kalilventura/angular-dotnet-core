@@ -43,7 +43,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{name: string}")]
+        [Route("{name}")]
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(string name)
         {

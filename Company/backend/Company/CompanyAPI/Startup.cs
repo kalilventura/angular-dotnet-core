@@ -63,17 +63,17 @@ namespace CompanyAPI
                 {
                     Title = "Company API",
                     Version = "v1",
-                    Description = "API using SQL Server and ASP.Net Core 3.0",
+                    Description = "API using SQL Server and ASP.Net Core 3.1",
                     Contact = new OpenApiContact
                     {
                         Name = "Kalil Teixeira Ventura Monteiro",
                         Email = "kalilventur@gmail.com",
-                        Url = new Uri("")
+                        //Url = new Uri("")
                     },
                     License = new OpenApiLicense
                     {
                         Name = "Use MIT License",
-                        Url = new Uri("")
+                        //Url = new Uri("")
                     }
                 });
                 swagger.ResolveConflictingActions(x => x.First());
@@ -125,7 +125,7 @@ namespace CompanyAPI
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company V1");
+                    c.SwaggerEndpoint("/swagger/v1/", "Company V1");
                     c.RoutePrefix = string.Empty;
                 });
 

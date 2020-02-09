@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
+    [ApiController]
     [ValidateAntiForgeryToken]
+    [Route("api/[controller]")]
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyService _companyService;
@@ -30,7 +30,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id: int}")]
+        [Route("{id}")]
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(int id)
         {
@@ -40,7 +40,7 @@ namespace CompanyAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{companyName: string}")]
+        [Route("{companyName}")]
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(string companyName)
         {
