@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;

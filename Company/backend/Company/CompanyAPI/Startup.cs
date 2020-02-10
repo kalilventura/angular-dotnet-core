@@ -125,8 +125,7 @@ namespace CompanyAPI
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/", "Company V1");
-                    c.RoutePrefix = string.Empty;
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Company V1");
                 });
 
             app.UseHttpsRedirection();

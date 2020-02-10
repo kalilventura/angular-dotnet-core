@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -31,10 +31,10 @@ namespace CompanyAPI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
-        [Produces("application/json")]
         [ProducesResponseType(201)]
         [ProducesResponseType(406)]
         [ProducesResponseType(500)]
+        [Produces("application/json")]
         public async Task<IActionResult> Register(Register user)
         {
             bool userExists = await _authService.UserExists(user.Username);
@@ -67,11 +67,11 @@ namespace CompanyAPI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        [Produces("application/json")]
         [ProducesResponseType(202)]
         [ProducesResponseType(401)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
+        [Produces("application/json")]
         public async Task<IActionResult> Login(Login user)
         {
             bool userExists = await _authService.UserExists(user.Username);
@@ -90,9 +90,9 @@ namespace CompanyAPI.Controllers
 
         }
 
-        public async Task<IActionResult> CheckToken(Login user)
-        {
-            return StatusCode(StatusCodes.Status200OK);
-        }
+        //public async Task<IActionResult> CheckToken(Login user)
+        //{
+        //    return StatusCode(StatusCodes.Status200OK);
+        //}
     }
 }

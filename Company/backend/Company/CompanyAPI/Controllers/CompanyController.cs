@@ -52,7 +52,6 @@ namespace CompanyAPI.Controllers
         [HttpPost]
         [Authorize("Bearer")]
         [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Company company)
         {
             if (await _companyService.Exists(x => x.Id == company.Id))
