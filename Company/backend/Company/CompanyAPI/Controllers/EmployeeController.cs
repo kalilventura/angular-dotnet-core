@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
+using CompanyAPI.Repository.Queries;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +34,8 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(int id)
         {
-            bool employeeExists = await _employeeService.Exists(x => x.Id == id);
+            //bool employeeExists = await _employeeService.Exists(x => x.Id == id);
+            bool employeeExists = await _employeeService.Exists(EmployeeQueries.EmployeeExists(id));
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
@@ -66,7 +68,8 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Put([FromBody] Employee employee)
         {
-            bool employeeExists = await _employeeService.Exists(x => x.Id == employee.Id);
+            //bool employeeExists = await _employeeService.Exists(x => x.Id == employee.Id);
+            bool employeeExists = await _employeeService.Exists(EmployeeQueries.EmployeeExists(employee.Id.Value));
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 

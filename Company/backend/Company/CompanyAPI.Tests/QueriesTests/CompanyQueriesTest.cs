@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CompanyAPI.Repository.Queries
+namespace CompanyAPI.Tests.QueriesTests
 {
-    public static class AddressQueries
+    public class CompanyQueriesTest
     {
+
     }
 }

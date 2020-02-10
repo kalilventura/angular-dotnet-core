@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.DTO;
+using CompanyAPI.Repository.Queries;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Post([FromBody] Address address)
         {
-            bool employeeExists = await _employee.Exists(x => x.Id == address.EmployeeId);
+            bool employeeExists = await _employee.Exists(EmployeeQueries.EmployeeExists(address.EmployeeId));
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
@@ -39,7 +40,7 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Put([FromBody] Address address)
         {
-            bool employeeExists = await _employee.Exists(x => x.Id == address.EmployeeId);
+            bool employeeExists = await _employee.Exists(EmployeeQueries.EmployeeExists(address.EmployeeId));
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 
@@ -52,7 +53,7 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Delete([FromBody] DeleteAddress address)
         {
-            bool employeeExists = await _employee.Exists(x => x.Id == address.EmployeeId);
+            bool employeeExists = await _employee.Exists(EmployeeQueries.EmployeeExists(address.EmployeeId));
             if (!employeeExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Employee not exists." });
 

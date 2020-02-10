@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
+using CompanyAPI.Repository.Queries;
 using CompanyAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +35,8 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(int id)
         {
-            var company = await _companyService.FindOne(x => x.Id == id);
+            //var company = await _companyService.FindOne(x => x.Id == id);
+            var company = await _companyService.FindOne(CompanyQueries.FindById(id));
 
             return StatusCode(StatusCodes.Status200OK, new { company });
         }
@@ -44,7 +46,8 @@ namespace CompanyAPI.Controllers
         [Authorize("Bearer")]
         public async Task<IActionResult> Get(string companyName)
         {
-            var companies = await _companyService.Find(x => x.CompanyName.Contains(companyName));
+            //var companies = await _companyService.Find(x => x.CompanyName.Contains(companyName));
+            var companies = await _companyService.Find(CompanyQueries.FindByName(companyName));
 
             return StatusCode(StatusCodes.Status200OK, new { companies });
         }
@@ -54,7 +57,8 @@ namespace CompanyAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Post([FromBody] Company company)
         {
-            if (await _companyService.Exists(x => x.Id == company.Id))
+            //if (await _companyService.Exists(x => x.Id == company.Id))
+            if (await _companyService.Exists(CompanyQueries.FindById(company.Id.Value)))
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company Exists" });
 
             var result = await _companyService.Add(company);
@@ -67,7 +71,8 @@ namespace CompanyAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Put([FromBody] Company company)
         {
-            bool exists = await _companyService.Exists(x => x.Id == company.Id);
+            //bool exists = await _companyService.Exists(x => x.Id == company.Id);
+            bool exists = await _companyService.Exists(CompanyQueries.FindById(company.Id.Value));
             if (!exists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
@@ -81,7 +86,8 @@ namespace CompanyAPI.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete([FromBody] Company company)
         {
-            bool exists = await _companyService.Exists(x => x.Id == company.Id);
+            //bool exists = await _companyService.Exists(x => x.Id == company.Id);
+            bool exists = await _companyService.Exists(CompanyQueries.FindById(company.Id.Value));
             if (!exists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Company not exists" });
 
