@@ -1,21 +1,21 @@
-version: '3'
+version: "3"
 
 services:
-
-#Configuration Sql Server
+  #Configuration Sql Server
   company.database:
-    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: company.database
-    environment: 
+    environment:
       ACCEPT_EULA: "Y"
       SA_USER: "sa"
-      SA_PASSWORD: "6zY0KGaw"
+      SA_PASSWORD: "cz7YkLL09@!0*"
+      MSSQL_PID: Express
     ports:
       - "1433:1433"
     networks:
       - company-network
 
-#Configuration Webapi
+  #Configuration Webapi
   company.api:
     build:
       context: Company
@@ -32,6 +32,6 @@ services:
       - "company.database"
 
 #Network for containers
-networks: 
+networks:
   company-network:
     driver: bridge
