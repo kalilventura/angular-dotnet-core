@@ -22,10 +22,10 @@ namespace CompanyAPI.Services.Implementation
 
         public async Task<bool> Exists(Expression<Func<T, bool>> query) => await _repository.Exists(query);
 
-        public async Task<IList<T>> Find(Expression<Func<T, bool>> query) => await _repository.Find(query);
+        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> query) => await _repository.Find(query);
 
         public async Task<T> FindOne(Expression<Func<T, bool>> query) => await _repository.FindOne(query);
 
-        public async Task<IList<T>> GetAll() => await _repository.FindAll();
+        public async Task<IEnumerable<T>> GetAll() => await _repository.FindAll();
     }
 }

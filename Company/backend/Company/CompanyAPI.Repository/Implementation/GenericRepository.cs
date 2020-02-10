@@ -62,7 +62,7 @@ namespace CompanyAPI.Repository.Implementation
             }
         }
 
-        public async Task<IList<T>> FindAll()
+        public async Task<IEnumerable<T>> FindAll()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace CompanyAPI.Repository.Implementation
             }
         }
 
-        public async Task<IList<T>> Find(Expression<Func<T, bool>> query)
+        public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> query)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace CompanyAPI.Repository.Implementation
             {
                 return await _context
                                     .Set<T>()
-                                    .FirstAsync(query);
+                                    .FirstOrDefaultAsync(query);
             }
             catch (Exception ex)
             {

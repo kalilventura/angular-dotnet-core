@@ -11,9 +11,9 @@ namespace CompanyAPI.Services.Interfaces
         Task<T> Add(T entity);
         void Delete(T entity);
         Task<T> Alter(T entity);
-        Task<IList<T>> GetAll();
+        Task<IEnumerable<T>> GetAll();
         Task<bool> Exists(Expression<Func<T, bool>> query);
-        Task<IList<T>> Find(Expression<Func<T, bool>> query);
+        Task<IEnumerable<T>> Find(Expression<Func<T, bool>> query);
         Task<T> FindOne(Expression<Func<T, bool>> query);
     }
 }
