@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AddressController : ControllerBase
     {
         private readonly IAddressService _address;
