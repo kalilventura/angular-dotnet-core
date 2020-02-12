@@ -29,7 +29,7 @@ namespace CompanyAPI.Tests.QueriesTests
             IList<Employee> employees = new List<Employee>();
             for (int i = 0; i <= 10; i++)
             {
-                employees.Add(new Employee($"Teste{i}", $"document{i}", $"email{i}@email.com")
+                employees.Add(new Employee($"Teste{i}", $"document{i}", $"email{i}@email.com", new Guid())
                 {
                     //Id = i
                 });

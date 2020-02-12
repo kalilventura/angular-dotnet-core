@@ -5,7 +5,7 @@ namespace CompanyAPI.Domain.Models
 {
     public class Employee : Entity
     {
-        public Employee(Guid id) : base(id) { }
+        public Employee() : base() { }
 
         public Employee(string name, string document, string email, Guid? id) : base(id)
         {
