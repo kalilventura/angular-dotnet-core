@@ -1,1 +1,33 @@
-<p>register works!</p>
+<div fxLayout="column">
+    <div fxLayoutAlign="center" fxLayout="row">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <mat-card class="register-card mat-elevation-z8">
+                <mat-card-title>Register</mat-card-title>
+                <mat-card-content fxLayout="column" *ngIf="!loading">
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="username" type="text" placeholder="Username"
+                            autocomplete="email" readonly="false">
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="email" type="email" placeholder="E-mail" readonly="false">
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="fullname" type="text" placeholder="Put your name here">
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input matInput formControlName="password" type="password" disabled="true"
+                            placeholder="Password" autocomplete="password">
+                    </mat-form-field>
+                </mat-card-content>
+                <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+                    <button mat-button color="primary" type="submit" [disabled]="!registerForm.valid">
+                        <mat-icon>check</mat-icon>
+                        Register
+                    </button>
+                </mat-card-actions>
+                <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+            </mat-card>
+        </form>
+
+    </div>
+</div>

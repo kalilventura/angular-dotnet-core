@@ -22,22 +22,22 @@ namespace CompanyAPI.Repository.Implementation
 
         public async Task<IdentityResult> CreateUser(Register user)
         {
-            var applicationUser = new ApplicationUser()
-            {
-                UserName = user.Username,
-                Email = user.Email,
-                FullName = user.FullName
-            };
-
             try
             {
+                var applicationUser = new ApplicationUser()
+                {
+                    UserName = user.Username,
+                    Email = user.Email,
+                    FullName = user.FullName
+                };
+
                 var result = await _userManager.CreateAsync(applicationUser, user.Password);
                 await _userManager.AddToRoleAsync(applicationUser, "Employee");
                 return result;
             }
             catch (Exception ex)
             {
-                throw new Exception("Failed to create user.",ex.InnerException);
+                throw new Exception($"Failed to create user: {ex.Message}");
             }
 
         }

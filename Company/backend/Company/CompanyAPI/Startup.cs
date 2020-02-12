@@ -57,11 +57,13 @@ namespace CompanyAPI
             // Swagger configurations
             services.RegisterSwagger();
 
+            services.AddCors();
             services
                 .AddControllers()
                 .AddFluentValidation();
 
             services.RegisterRequestState();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,16 +85,17 @@ namespace CompanyAPI
                 });
 
             app.UseHttpsRedirection();
+
             app.UseRouting();
-            app.UseAuthorization();
+            app.UseCors(x =>
+            {
+                x.AllowAnyOrigin();
+                x.AllowAnyMethod();
+                x.AllowAnyHeader();
+            });
+
             app.UseAuthentication();
-            app.UseCors(builder =>
-                    builder
-                        .AllowAnyOrigin()
-                        //.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                );
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

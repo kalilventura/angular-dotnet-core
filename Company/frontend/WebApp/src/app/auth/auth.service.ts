@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 export class AuthService {
     private subjUser$: BehaviorSubject<User> = new BehaviorSubject(null);
     private subjLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private readonly url: string = `${environment.api_route}/auth`;
+    private readonly url: string = `${environment.api_route_https}/auth`;
 
     constructor(private http: HttpClient) { }
 
@@ -25,7 +25,7 @@ export class AuthService {
         this.subjUser$.next(null);
     }
 
-    login(credentials: { email: string, password: string }): Observable<User> {
+    login(credentials: { username: string, password: string }): Observable<User> {
         return this.http
             .post<User>(`${this.url}/login`, credentials)
             .pipe(tap((user: User) => {
@@ -36,10 +36,10 @@ export class AuthService {
     }
 
     isAuthenticated(): Observable<boolean> {
-        // const token = localStorage.getItem('token');
-        // if (token && !this.subjLoggedIn$.value) {
-        //     return this.checkTokenValidation();
-        // }
+        const token = localStorage.getItem('token');
+        if (token && !this.subjLoggedIn$.value) {
+            return this.checkTokenValidation();
+        }
         return this.subjLoggedIn$.asObservable();
     }
 

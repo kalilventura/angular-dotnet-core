@@ -29,7 +29,7 @@ namespace CompanyAPI.Controllers
         /// <response code="406">Usuário não aceito</response>
         /// <response code="500">Erro interno</response>
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("register")]
         [ProducesResponseType(201)]
         [ProducesResponseType(406)]
@@ -62,7 +62,7 @@ namespace CompanyAPI.Controllers
         /// <response code="404">Usuário não encontrado</response>
         /// <response code="500">Erro interno</response>
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("login")]
         [ProducesResponseType(202)]
         [ProducesResponseType(401)]
@@ -85,9 +85,5 @@ namespace CompanyAPI.Controllers
 
         }
 
-        //public async Task<IActionResult> CheckToken(Login user)
-        //{
-        //    return StatusCode(StatusCodes.Status200OK);
-        //}
     }
 }

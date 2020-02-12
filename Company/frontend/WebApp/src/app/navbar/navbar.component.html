@@ -4,8 +4,8 @@
     <span class="menu-spacer"></span>
     <ng-container *ngIf="!(authenticated$ | async)">
       <div>
-        <a mat-button routerLink="/account" routerLinkActive="selected">Login</a>
-        <a mat-button routerLink="/account" routerLinkActive="selected">Register</a>
+        <a mat-button routerLink="/auth/login" routerLinkActive="selected">Login</a>
+        <a mat-button routerLink="/auth/register" routerLinkActive="selected">Register</a>
         <!-- <a mat-button routerLink="/account" routerLinkActive="selected">My Account</a>
         <a mat-button routerLink="/company" routerLinkActive="selected">Your Company</a>
         <a mat-button routerLink="/logout">Exit</a> -->

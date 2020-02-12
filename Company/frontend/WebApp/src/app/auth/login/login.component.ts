@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    username: ['', [Validators.required, Validators.minLength(4)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
@@ -43,10 +43,22 @@ export class LoginComponent implements OnInit {
         },
         (err) => {
           console.log(err);
+          const message = this.messageOnError(err.status);
           this.snackBar.open(
-            'Login Error', 'OK', { duration: 2000 });
+            `Login Error: ${message}`, 'OK', { duration: 4000 });
           this.loading = false;
         }
       );
+  }
+
+  messageOnError(statusCode: any): string {
+    switch (statusCode) {
+      case 404:
+        return 'User not exists';
+      case 401:
+        return 'User Unauthorized';
+      default:
+        return 'Unknown error';
+    }
   }
 }
