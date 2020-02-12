@@ -6,6 +6,6 @@ namespace CompanyAPI.Repository.Queries
 {
     public static class EmployeeQueries
     {
-        public static Expression<Func<Employee, bool>> EmployeeExists(int id) => x => x.Id == id;
+        public static Expression<Func<Employee, bool>> EmployeeExists(Guid? id) => x => x.Id == id;
     }
 }

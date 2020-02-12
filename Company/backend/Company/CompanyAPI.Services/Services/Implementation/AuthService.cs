@@ -58,17 +58,16 @@ namespace CompanyAPI.Services.Implementation
             try
             {
                 string token = await GenerateToken(user.Username);
-
                 var loginUser = await _authRepository.FindUserByUserName(user.Username);
 
-                return new User
+                return new User(password: string.Empty,
+                                role: string.Empty,
+                                fullName: loginUser.FullName,
+                                employee: null,
+                                token: token)
                 {
                     Email = loginUser.Email,
-                    UserName = loginUser.UserName,
-                    FullName = loginUser.FullName,
-                    Employee = null,
-                    Token = token,
-                    Role = string.Empty
+                    UserName = loginUser.UserName
                 };
 
             }

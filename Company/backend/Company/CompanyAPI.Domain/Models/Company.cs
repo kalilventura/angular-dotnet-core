@@ -10,8 +10,7 @@
             Document = document;
         }
 
-        public string CompanyName { get; set; }
-
-        public string Document { get; set; }
+        public string CompanyName { get; private set; }
+        public string Document { get; private set; }
     }
 }

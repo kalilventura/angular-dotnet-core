@@ -13,7 +13,7 @@ namespace CompanyAPI.Database.Context
             {
                 var scopeServiceProvider = serviceScope.ServiceProvider;
                 var context = serviceScope.ServiceProvider.GetService<CompanyApiContext>();
-                context.Database.Migrate();
+                await context.Database.MigrateAsync();
             }
         }
     }

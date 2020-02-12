@@ -10,13 +10,13 @@ namespace CompanyAPI.Domain.Validations {
                 .EmailAddress ()
                 .WithMessage ("Invalid email format.");
 
-            RuleFor (user => user.Password)
+            RuleFor (user => user.Login.Password)
                 .NotEmpty ()
                 .WithMessage ("Password is required.")
                 .Length (6, 100)
                 .WithMessage ("Password need between 6 and 100 characters.");
 
-            RuleFor (user => user.Username)
+            RuleFor (user => user.Login.Username)
                 .NotEmpty ()
                 .WithMessage ("Username is required.")
                 .NotNull ()
