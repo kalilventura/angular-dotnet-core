@@ -20,7 +20,7 @@ namespace CompanyAPI.Tests.QueriesTests
         [Fact]
         public void Find_Employee_By_Id_01()
         {
-            var result = employees.AsQueryable().Where(EmployeeQueries.EmployeeExists(1));
+            var result = employees.AsQueryable().Where(EmployeeQueries.EmployeeExists(new Guid()));
             Assert.Equal(1, result.Count());
         }
 
@@ -29,9 +29,9 @@ namespace CompanyAPI.Tests.QueriesTests
             IList<Employee> employees = new List<Employee>();
             for (int i = 0; i <= 10; i++)
             {
-                employees.Add(new Employee($"Teste{i}", $"document{i}", $"email{i}@email.com")
+                employees.Add(new Employee($"Teste{i}", $"document{i}", $"email{i}@email.com", new Guid())
                 {
-                    Id = i
+                    //Id = i
                 });
             }
 

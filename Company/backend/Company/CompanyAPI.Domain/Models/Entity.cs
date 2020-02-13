@@ -1,7 +1,17 @@
-﻿namespace CompanyAPI.Domain.Models
+﻿using System;
+
+namespace CompanyAPI.Domain.Models
 {
     public abstract class Entity
     {
-        public int? Id { get; set; }
+        public Entity() {
+            
+        }
+        public Entity(Guid? id)
+        {
+            Id = id;
+        }
+
+        public Guid? Id { get; private set; }
     }
 }

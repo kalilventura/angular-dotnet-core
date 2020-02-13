@@ -14,9 +14,13 @@ namespace CompanyAPI.Database.Context
             {
                 var scopeServiceProvider = serviceScope.ServiceProvider;
                 var context = serviceScope.ServiceProvider.GetService<CompanyApiContext>();
+<<<<<<< HEAD
                 context.Database.Migrate();
 
                 //new SeedCompanyApi(context).Seed();
+=======
+                await context.Database.MigrateAsync();
+>>>>>>> 5f6d46ddf1be1b34305806b0c559bff95a1401f1
             }
         }
     }

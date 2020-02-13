@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CompanyAPI.Database.Context;
 using CompanyAPI.Domain.Models;
@@ -16,7 +17,7 @@ namespace CompanyAPI.Tests.RepositoryTests
         [Fact]
         public async Task AddEmployeeAsync()
         {
-            var employee = new Employee("Teste", "Document", "email@email.com");
+            var employee = new Employee("Teste", "Document", "email@email.com", new Guid());
 
             var moqRepository = ReturnMoqEmployeeRepository();
 
@@ -34,8 +35,8 @@ namespace CompanyAPI.Tests.RepositoryTests
             //Given
             var employees = new List<Employee>
             {
-                new Employee("Fulano", "Document", "fulano@gmail.com"),
-                new Employee("Ciclano", "Document", "ciclano@gmail.com")
+                new Employee("Fulano", "Document", "fulano@gmail.com", new Guid()),
+                new Employee("Ciclano", "Document", "ciclano@gmail.com", new Guid())
             };
 
             var moqRepository = ReturnMoqEmployeeRepository();
@@ -56,20 +57,21 @@ namespace CompanyAPI.Tests.RepositoryTests
         public async Task GetEmployeeById()
         {
             // Given
+            var guid = new Guid();
             var employee = new Employee
-            {
-                Id = 10,
-                Name = "Fulano",
-                Document = "Document",
-                Email = "fulano@gmail.com"
-            };
+            (
+                //id: 10,
+                id: guid,
+                name: "Fulano",
+                document: "Document",
+                email: "fulano@gmail.com");
 
             var moqRepository = ReturnMoqEmployeeRepository();
 
             // When
             await moqRepository.AddAsync(employee);
 
-            var result = moqRepository.FindOne(x => x.Id == 10);
+            var result = moqRepository.FindOne(x => x.Id == guid);
 
             // Then
             Assert.NotNull(result);

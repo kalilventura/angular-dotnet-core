@@ -5,14 +5,19 @@ namespace CompanyAPI.Domain.ViewModel
 {
     public class User : IdentityUser
     {
-        public string Password { get; set; }
+        public User(string password, string role, string fullName, Employee employee, string token)
+        {
+            Password = password;
+            Role = role;
+            FullName = fullName;
+            Employee = employee;
+            Token = token;
+        }
 
-        public string Role { get; set; }
-
-        public string FullName { get; set; }
-
-        public Employee Employee { get; set; }
-
-        public string Token { get; set; }
+        public string Password { get; private set; }
+        public string Role { get; private set; }
+        public string FullName { get; private set; }
+        public Employee Employee { get; private set; }
+        public string Token { get; private set; }
     }
 }

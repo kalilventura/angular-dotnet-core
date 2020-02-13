@@ -26,13 +26,18 @@ namespace CompanyAPI.Repository.Implementation
             {
                 var applicationUser = new ApplicationUser()
                 {
-                    UserName = user.Username,
+                    UserName = user.Login.Username,
                     Email = user.Email,
                     FullName = user.FullName
                 };
 
+<<<<<<< HEAD
                 var result = await _userManager.CreateAsync(applicationUser, user.Password);
                 //await _userManager.AddToRoleAsync(applicationUser, "Employee");
+=======
+                var result = await _userManager.CreateAsync(applicationUser, user.Login.Password);
+                await _userManager.AddToRoleAsync(applicationUser, "Employee");
+>>>>>>> 5f6d46ddf1be1b34305806b0c559bff95a1401f1
                 return result;
             }
             catch (Exception ex)

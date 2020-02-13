@@ -1,4 +1,5 @@
-﻿using CompanyAPI.Domain.Enum;
+﻿using System;
+using CompanyAPI.Domain.Enum;
 
 namespace CompanyAPI.Domain.Models
 {
@@ -14,7 +15,8 @@ namespace CompanyAPI.Domain.Models
             string state,
             string country,
             string zipCode,
-            EAddressType type)
+            EAddressType type,
+            Guid? id) : base(id)
         {
             Street = street;
             Number = number;
