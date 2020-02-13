@@ -28,11 +28,14 @@ export class AuthService {
     login(credentials: { username: string, password: string }): Observable<User> {
         return this.http
             .post<User>(`${this.url}/login`, credentials)
-            .pipe(tap((user: User) => {
-                localStorage.setItem('token', user.token);
-                this.subjLoggedIn$.next(true);
-                this.subjUser$.next(user);
-            }));
+            .pipe(
+                tap((user: any) => {
+                    localStorage.setItem('login', JSON.stringify(user.login));
+                    localStorage.setItem('token', user.login.token);
+                    this.subjLoggedIn$.next(true);
+                    this.subjUser$.next(user);
+                })
+            );
     }
 
     isAuthenticated(): Observable<boolean> {

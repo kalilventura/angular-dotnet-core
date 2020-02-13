@@ -32,7 +32,7 @@ namespace CompanyAPI.Repository.Implementation
                 };
 
                 var result = await _userManager.CreateAsync(applicationUser, user.Password);
-                await _userManager.AddToRoleAsync(applicationUser, "Employee");
+                //await _userManager.AddToRoleAsync(applicationUser, "Employee");
                 return result;
             }
             catch (Exception ex)

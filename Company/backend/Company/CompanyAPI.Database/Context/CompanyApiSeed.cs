@@ -1,3 +1,4 @@
+using CompanyAPI.Database.Seed;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,8 @@ namespace CompanyAPI.Database.Context
                 var scopeServiceProvider = serviceScope.ServiceProvider;
                 var context = serviceScope.ServiceProvider.GetService<CompanyApiContext>();
                 context.Database.Migrate();
+
+                //new SeedCompanyApi(context).Seed();
             }
         }
     }

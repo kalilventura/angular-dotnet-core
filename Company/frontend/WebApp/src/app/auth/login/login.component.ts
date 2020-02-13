@@ -32,12 +32,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(crendentials)
       .subscribe(
         (user) => {
-          console.log(user);
-          this.snackBar.open(
-            `Logged in successfuly. Hello ${user.userName} !`,
-            'OK',
-            { duration: 2000 }
-          );
+          this.snackBar.open(`Logged in successfuly. Hello ${user.login.userName} !`, 'OK', { duration: 2000 });
           this.router.navigateByUrl('/');
           this.loading = false;
         },

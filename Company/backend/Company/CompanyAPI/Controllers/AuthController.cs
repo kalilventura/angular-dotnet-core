@@ -85,5 +85,15 @@ namespace CompanyAPI.Controllers
 
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("checkToken")]
+        [ProducesResponseType(202)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Protected()
+        {
+            return StatusCode(StatusCodes.Status202Accepted, new { message = "Authenticathed" });
+        }
+
     }
 }

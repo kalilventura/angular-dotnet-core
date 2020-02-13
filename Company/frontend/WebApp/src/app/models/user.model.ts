@@ -1,9 +1,10 @@
+import { Login } from './login.model';
+
 export class User {
   id?: number;
-  password: string;
   email: string;
-  userName: string;
   fullName: string;
   role?: string;
   token?: string;
+  login: Login;
 }

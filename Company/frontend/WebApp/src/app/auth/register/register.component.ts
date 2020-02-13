@@ -33,9 +33,9 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     this.authService.register(registerUser)
       .subscribe(
-        (message) => {
+        (message: any) => {
           console.log(message);
-          this.snackBar.open(`${message}`, 'OK', { duration: 5000 });
+          this.snackBar.open(`${message.message}`, 'OK', { duration: 5000 });
           this.loading = false;
         },
         (err) => {
