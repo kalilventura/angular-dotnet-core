@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Queries;
@@ -32,7 +33,7 @@ namespace CompanyAPI.Controllers
 
         [HttpGet("{id}")]
         [Authorize("Bearer")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid? id)
         {
             //bool employeeExists = await _employeeService.Exists(x => x.Id == id);
             bool employeeExists = await _employeeService.Exists(EmployeeQueries.EmployeeExists(id));

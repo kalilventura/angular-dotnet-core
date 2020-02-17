@@ -37,7 +37,7 @@ namespace CompanyAPI.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> Register(Register user)
         {
-            bool userExists = await _authService.UserExists(user.Username);
+            bool userExists = await _authService.UserExists(user.Login.Username);
             if (userExists)
                 return StatusCode(StatusCodes.Status406NotAcceptable, new { message = "Username exists." });
 

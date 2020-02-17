@@ -1,8 +1,10 @@
-﻿namespace CompanyAPI.DTO
+﻿using System;
+
+namespace CompanyAPI.DTO
 {
     public class DeleteAddress
     {
-        public int EmployeeId { get; set; }
-        public int AddressId { get; set; }
+        public Guid? EmployeeId { get; set; }
+        public Guid? AddressId { get; set; }
     }
 }

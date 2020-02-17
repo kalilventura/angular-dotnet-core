@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CompanyAPI.Domain.Models;
 using CompanyAPI.Repository.Queries;
 using CompanyAPI.Services.Interfaces;
@@ -33,7 +34,7 @@ namespace CompanyAPI.Controllers
         [HttpGet]
         [Route("{id}")]
         [Authorize("Bearer")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid? id)
         {
             //var company = await _companyService.FindOne(x => x.Id == id);
             var company = await _companyService.FindOne(CompanyQueries.FindById(id));

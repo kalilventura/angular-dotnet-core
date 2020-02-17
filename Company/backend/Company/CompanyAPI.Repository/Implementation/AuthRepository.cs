@@ -10,8 +10,8 @@ namespace CompanyAPI.Repository.Implementation
 {
     public class AuthRepository : IAuthRepository
     {
-          private readonly UserManager<ApplicationUser> _userManager;
-          private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthRepository(UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager)
@@ -31,13 +31,8 @@ namespace CompanyAPI.Repository.Implementation
                     FullName = user.FullName
                 };
 
-<<<<<<< HEAD
-                var result = await _userManager.CreateAsync(applicationUser, user.Password);
-                //await _userManager.AddToRoleAsync(applicationUser, "Employee");
-=======
                 var result = await _userManager.CreateAsync(applicationUser, user.Login.Password);
-                await _userManager.AddToRoleAsync(applicationUser, "Employee");
->>>>>>> 5f6d46ddf1be1b34305806b0c559bff95a1401f1
+                //await _userManager.AddToRoleAsync(applicationUser, "Employee");
                 return result;
             }
             catch (Exception ex)
@@ -73,7 +68,7 @@ namespace CompanyAPI.Repository.Implementation
             try
             {
                 var result = await _userManager.FindByNameAsync(username);
-                
+
                 return result != null;
             }
             catch (Exception ex)
